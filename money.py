@@ -13,17 +13,14 @@ from decimal import Decimal #Removes floating point issues
 
 @dataclass
 class Money:
-    """Represents a monetary amount with a maximum limit of $99,999"""
+    """Money amount, max $99,999"""
     amount: Union[int, float]
     MAX_AMOUNT: ClassVar[int] = 99999
 
     def __post_init__(self):
-        if not isinstance(self.amount, Decimal):
-            self.amount = Decimal(str(self.amount))  
-        if self.amount > self.MAX_AMOUNT:
-            raise ValueError(f"Amount cannot exceed ${self.MAX_AMOUNT:,}")
-        if self.amount < 0:
-            raise ValueError("Amount cannot be negative")
+        self.amount = Decimal(str(self.amount))
+        if not 0 <= self.amount <= self.MAX_AMOUNT:
+            raise ValueError(f"Amount must be between $0 and ${self.MAX_AMOUNT:,}")
         
     def __repr__(self) -> str:
         return f"${self.amount:,.2f}"
