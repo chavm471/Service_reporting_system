@@ -283,7 +283,7 @@ class DatabaseManager:
             city=row[17],
             state=row[18],
             zipCode=row[19],
-            status=Status[row[20]]  # Now correctly gets the status string
+            status=Status[row[20]]
         )
         
         service = Service(

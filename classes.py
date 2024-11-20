@@ -31,14 +31,8 @@ class Member:
     def updateStatus(self,newStatus):
         pass
     
-    #displays member information
-    def displayInfo(self):
-        print("Member Number:",self._memberNumber)
-        print("First Name:",self._firstName)
-        print("Last Name",self._lastName)
-        print("Address:",self._streetAddress,self._city,self._state,self._zipCode)
-        print("Membership Status:",self._status)
-        pass
+    def __repr__(self) -> str:
+        return f"Member Number: {self._memberNumber}\nFirst Name: {self._firstName}\nLast Name: {self._lastName}\nAddress: {self._streetAddress} {self._city} {self._state} {self._zipCode}\nMembership Status: {self._status}"
 
 class Provider:
     def __init__(self, providerNumber: str = None, firstName: str = None, lastName: str = None, streetAddress: str = None, city: str = None, state: str = None, zipCode: str = None) -> None:
@@ -68,11 +62,8 @@ class Provider:
         #ProviderNumber == self._providernumber
         pass
 
-    def displayInfo(self):
-        print("Provider Number:",self._providerNumber)
-        print("Name:",self._firstname, self._lastname)
-        print("Address:",self._streetAddress,self._city,self._state,self._zipCode)
-        pass
+    def __repr__(self) -> str:
+        return f"Provider Number: {self._providerNumber}\nName: {self._firstname} {self._lastname}\nAddress: {self._streetAddress} {self._city} {self._state} {self._zipCode}"
 
 class Service:
     def __init__(self, serviceCode: str = None, serviceName: str = None, fee: float = None) -> None:
@@ -81,11 +72,8 @@ class Service:
         self._fee = fee
 
     #show service details
-    def displayInfo(self):
-        print("Service Name:",self._serviceName)
-        print("Service Code:",self._serviceCode)
-        print("Fee:",self._fee)
-        pass
+    def __repr__(self) -> str:
+        return f"Service Name: {self._serviceName}\nService Code: {self._serviceCode}\nFee: {self._fee}"
 
 class ServiceRecord:
     def __init__(self, dateReceived=None, serviceDate=None, provider=None, member=None, service=None, comments=None, fee=None) -> None:
