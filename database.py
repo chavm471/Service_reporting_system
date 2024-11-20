@@ -160,3 +160,27 @@ class DatabaseManager:
             service_record._fee
         ))
         self.connection.commit()
+
+
+    def get_provider(self, provider_number: str) -> Provider:
+        self.cursor.execute("SELECT * FROM providers WHERE provider_number = ?", (provider_number,))
+        return Provider(*self.cursor.fetchone())
+    
+
+    def get_member(self, member_number: str) -> Member:
+        self.cursor.execute("SELECT * FROM members WHERE member_number = ?", (member_number,))
+        return Member(*self.cursor.fetchone())
+    
+
+    def get_service(self, service_code: str) -> Service:
+        self.cursor.execute("SELECT * FROM services WHERE service_code = ?", (service_code,))
+        return Service(*self.cursor.fetchone())
+    
+
+    def get_service_record(self, service_record_id: int) -> ServiceRecord:
+        self.cursor.execute("SELECT * FROM service_records WHERE service_record_id = ?", (service_record_id,))
+        return ServiceRecord(*self.cursor.fetchone())
+    
+    
+    def close(self):
+        self.conn.close()
