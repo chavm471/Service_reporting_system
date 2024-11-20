@@ -1,5 +1,10 @@
 from enum import Enum
 from datetime import date
+import os               # File IO
+import re               # Regex (idx might come in handy, it's good to have too many then too little)
+import logging          # Nice interface for logging, just captures timestamp and formats nice
+from dataclasses import dataclass, field # Class helpers, py 3.8+ features that make classes much shorter to write
+from typing import *    # Type hinting
 
 class Status(Enum):
     VALID = 1
@@ -7,19 +12,18 @@ class Status(Enum):
     INVALID = 3
 
 class Member:
-    #constructor
-    def __init__(self) -> None:
-        self._memberNumber:str = None
-        self._firstName:str = None
-        self._lastName:str = None
-        self._streetAddress:str = None
-        self._city:str = None
-        self._state:str = None
-        self._zipCode:str = None
-        self._status: Status = Status.INVALID
-    
-    #validate function checks if the members status
-    #allows them to receive services
+    def __init__(self, memberNumber: str = None, firstName: str = None, lastName: str = None, 
+                 streetAddress: str = None, city: str = None, state: str = None, 
+                 zipCode: str = None, status: Status = Status.INVALID) -> None:
+        self._memberNumber = memberNumber
+        self._firstName = firstName
+        self._lastName = lastName
+        self._streetAddress = streetAddress
+        self._city = city
+        self._state = state
+        self._zipCode = zipCode
+        self._status = status
+
     def validate(self):
         pass
     
@@ -37,16 +41,14 @@ class Member:
         pass
 
 class Provider:
-    def __init__(self) -> None:
-        self._providerNumber:str = None
-        self._name:str = None
-        self._streetAddress:str = None
-        self._city:str = None
-        self._state:str = None
-        self._zipCode:str = None
-        pass
-
-    #methods
+    def __init__(self, providerNumber: str = None, firstName: str = None, lastName: str = None, streetAddress: str = None, city: str = None, state: str = None, zipCode: str = None) -> None:
+        self._providerNumber = providerNumber
+        self._firstname = firstName
+        self._lastname = lastName
+        self._streetAddress = streetAddress
+        self._city = city
+        self._state = state
+        self._zipCode = zipCode
 
     def validate(self):
         pass
@@ -68,16 +70,15 @@ class Provider:
 
     def displayInfo(self):
         print("Provider Number:",self._providerNumber)
-        print("Name:",self._name)
+        print("Name:",self._firstname, self._lastname)
         print("Address:",self._streetAddress,self._city,self._state,self._zipCode)
         pass
 
 class Service:
-    def __init__(self) -> None:
-        self._serviceCode:str = None
-        self._serviceName:str = None
-        self._fee:float = None
-        pass
+    def __init__(self, serviceCode: str = None, serviceName: str = None, fee: float = None) -> None:
+        self._serviceCode = serviceCode
+        self._serviceName = serviceName 
+        self._fee = fee
 
     #show service details
     def displayInfo(self):
@@ -87,17 +88,15 @@ class Service:
         pass
 
 class ServiceRecord:
-    def __init__(self) -> None:
+    def __init__(self, dateReceived=None, serviceDate=None, provider=None, member=None, service=None, comments=None, fee=None) -> None:
         self._recordID:int = None
-        self._dateReceived = date.today()
-        #i just put that date for now
-        self._serviceDate = date(2023, 10, 21)
-        self._provider = None
-        self._member = None
-        self._service = None
-        self._comments = None
-        self._fee = None
-        pass
+        self._dateReceived = dateReceived if dateReceived else date.today()
+        self._serviceDate = serviceDate if serviceDate else date.today()
+        self._provider = provider
+        self._member = member 
+        self._service = service
+        self._comments = comments
+        self._fee = fee
 
     #initializes a new service record
     def createRecord(self):
