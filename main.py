@@ -6,20 +6,16 @@ import re               # Regex (idx might come in handy, it's good to have too 
 import logging          # Nice interface for logging, just captures timestamp and formats nice
 from dataclasses import dataclass, field # Class helpers, py 3.8+ features that make classes much shorter to write
 from typing import *    # Type hinting
+from menu import *
+from database import *
 
 def main():
+    menu_inst = MenuController()
+    database = DatabaseManager("chocoDB")
 
-    print("select what mode you want")
-    print("1.Operator mode")
-    print("2. Provider Mode")
-    mode = input()
+    database.create_tables()
 
-    #operator mode
-    if mode == 1:
-        member_num = input("enter you membership number")
-    #provider mode
-    if mode == 2:
-        provider_num = input("enter you provider number")
+    menu_inst.startmenu()
 
     return 0
 

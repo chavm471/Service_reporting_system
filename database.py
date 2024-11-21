@@ -77,7 +77,7 @@ class DatabaseManager:
             )
         """)
     
-
+    #add a provider
     def insert_provider(self, provider: Provider):
         # Validate field lengths
         if len(provider._firstname) > 25:
@@ -92,7 +92,8 @@ class DatabaseManager:
             raise ValueError("State exceeds maximum length of 2 characters")
         if len(provider._zipCode) > 5:
             raise ValueError("Zip code exceeds maximum length of 5 characters")
-
+        
+        #sql command to insert provider into table
         self.cursor.execute("""
             INSERT INTO providers (
                 provider_number,
@@ -104,6 +105,7 @@ class DatabaseManager:
                 zipcode
             ) VALUES (?, ?, ?, ?, ?, ?, ?)
         """, (
+            #members of the provider, inserting each into database
             provider._providerNumber,
             provider._firstname,
             provider._lastname,
@@ -112,6 +114,7 @@ class DatabaseManager:
             provider._state,
             provider._zipCode
         ))
+        #committing to the database (inserting)
         self.conn.commit()
 
 
@@ -302,6 +305,43 @@ class DatabaseManager:
             comments=row[6],
             fee=row[7]
         )
+    
+    def update_provider(self,provider_number):
+        provider_to_del = self.get_provider(provider_number)
+        if(provider_to_del._providerNumber == None):
+            raise ValueError("Failed to find provider")
+
+        #print out provider info
+        print("Information for member number:" + provider_to_del._providerNumber)
+        print("1." + provider_to_del._firstname)
+        print("2." + provider_to_del._lastname)
+        print("4." + provider_to_del._streetAddress)
+        print("5." + provider_to_del._city)
+        print("6." + provider_to_del._state)
+        print("7." + provider_to_del._zipCode)
+
+        #let the user pick what he wants to update
+        choice = input("What field would you like to edit?")
+        new_value = input("Enter what you want to replace it with")
+
+        if choice == 1:
+            pass
+
+        if choice == 2:
+            pass
+        if choice == 3:
+            pass
+        if choice == 4:
+            pass
+        if choice == 5:
+            pass
+        if choice == 6:
+            pass
+        if choice == 7:
+            pass
+
+    def remove_provider(self,provider_number):
+        pass
     
     def close(self):
         self.conn.close()
