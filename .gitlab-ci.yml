@@ -1,0 +1,26 @@
+# Define the stages of our pipeline
+stages:
+  - test
+
+# Use Python 3.9+ image
+image: python:3.9
+
+# Cache pip dependencies between runs
+cache:
+  paths:
+    - .pip-cache/
+
+# Before each job, install dependencies
+before_script:
+  - python -V
+  - pip install -r requirements.txt
+
+# Test stage
+run_tests:
+  stage: test
+  script:
+    - python -m pytest unit_tests/ -v --junitxml=report.xml
+  artifacts:
+    reports:
+      junit: report.xml
+    when: always 
