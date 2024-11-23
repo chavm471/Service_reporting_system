@@ -3,10 +3,8 @@ import sqlite3
 from datetime import datetime
 
 import sys
-from pathlib import Path
-
-sys.path.append(str(Path(__file__).parent.parent))
-
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from database import DatabaseManager
 from classes import Provider, Member, Service, ServiceRecord, Status
 
