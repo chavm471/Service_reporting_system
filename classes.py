@@ -183,14 +183,29 @@ class ChocAnSystem:
             l_name = input("Enter the last name of the provider")
 
         p_str_addr = input("Enter the street address of provider")
+        while not re.match(r"^[a-zA-Z0-9\s,.#-]+$", p_str_addr):
+            print("Invalid address. Only letters, numbers, and common address symbols (.,#-) are allowed.")
+            p_str_addr = input("Enter the street address of provider: ")
+
         city = input("Enter the city of provider")
+        while not re.match(r"^[a-zA-Z\s]+$", city):
+            print("Invalid city. Only letters and spaces are allowed.")
+            city = input("Enter the city of provider: ")
+
         st = input("Enter the state of the provider")
+        while not re.match(r"^[A-Z]{2}$", st):
+            print("Invalid state. Enter exactly two uppercase letters (e.g., 'CA').")
+            st = input("Enter the state of the provider (e.g., 'CA'): ")
+
+
         zip = input("Enter the zipcode of provider")
+        while not re.match(r"^\d{5}$", zip):
+            print("Invalid ZIP code. Enter exactly 5 digits.")
+            zip = input("Enter the zipcode of provider: ")
 
         #make a new Provider object
         new_provider = Provider(f_name,l_name,p_str_addr,city,st,zip)
         self._DB.insert_provider(new_provider)
-        pass
 
     #updates provider information
     def updateProvider(self):
