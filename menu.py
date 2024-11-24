@@ -53,11 +53,15 @@ class ManagerMenu():
         print("7. Add Service")
         print("8. Remove Service")
         print("9. Weekly reports")
-        selection = input()
+        selection = input("Enter option:")
+        while not re.match(r"^\d{1}$", selection):
+            print("Invalid option. Enter exactly 1 digit")
+            selection = input("Enter option:")
 
         #add provider
         if(selection == 4):
             #call the insert provider function from chocansystem class
+            self._choco.addProvider()
             pass
 
         #update provider
@@ -68,4 +72,5 @@ class ManagerMenu():
         #remove provider
         if(selection == 6):
             #call the remove provider from chocansystem class
+            self._choco.deleteProvider()
             pass
