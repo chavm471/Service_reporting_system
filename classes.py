@@ -206,12 +206,27 @@ class ChocAnSystem:
     
     #adds a new service record
     def addServiceRecord(self):
-        #Test Comment, Marc added
+        self = Service()
+        #service_code VARCHAR(6) PRIMARY KEY
+        self._serviceCode = input("Six Digit Service Code:")
+        while self._serviceCode is None or len(self._serviceCode) < 6:
+            self._serviceCode = input("Please Enter Valid Six Digit Service Code: ")
+        #service_name VARCHAR(20) 
+        self._serviceName = input("Service Name:")
+        while self._serviceName is None or len(self._serviceName) < 20:
+            self._serviceName = input("Please Enter a Service Name less than Twenty Characters: ")
+        #fee DECIMAL(8,2)
+        self._fee = input("Service Name:")
+        while self._fee is None or len(self._fee) < 8:
+            self._fee = input("Please Enter a Fee less than Eight Digits: ")
         pass
-
-    #Generates all required weekly reports
-    def generateWeeklyReports(self):
-        pass
+    
+    #deletes a service
+    def deleteService(self):
+        serv_num = input("Enter the six digit service code you wish to delete: ")
+        while serv_num is None or len(serv_num) < 6:
+            serv_num = input("Enter the six digit service code you wish to delete: ")
+        self._DB.delete_service(serv_num)
 
     #updates member statuses based on payment
     def processMembershipPayments(self):
@@ -231,6 +246,10 @@ class ReportGenerator:
 
     #creates a report for a specific provider
     def generateProviderReport(self):
+        pass
+
+    #Generates all required weekly reports
+    def generateWeeklyReports(self):
         pass
 
     #generates eft data for provider payments
