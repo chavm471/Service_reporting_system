@@ -124,6 +124,41 @@ class ChocAnSystem:
         pass
 
     def addMember(self):
+        self = Member()
+        #member_number VARCHAR(9) PRIMARY KEY,
+        self._memberNumber = input("Nine Digit Member Number: ")
+        while self._memberNumber is None or len(self._memberNumber) < 9:
+            self._memberNumber = input("Please Enter Valid Nine Digit Member Number: ")
+
+        #first_name VARCHAR(25) NOT NULL,
+        self._firstName = input("First Name:")
+        while self._firstName is None:
+            self._firstName = input("Please Enter Valid First Name:")
+
+        #last_name VARCHAR(25) NOT NULL,
+        self._lastName = input("Last Name:")
+        while self._lastName is None:
+            self._lastName = input("Please Enter Valid Last Name:")
+
+        #street_address VARCHAR(25),
+        self._streetAddress = input("Street Address: ")
+        while self._streetAddress is None:
+            self._streetAddress = input("Please Enter Valid Street Address: ")
+
+        #city VARCHAR(14),
+        self._city = input("City: ")
+        while self._city is None:
+            self._city = input("Please Enter Valid City: ")
+        #state VARCHAR(2),
+        self._state = input("Two Letter State ID: ")
+        while self._state is None or len(self._city) < 2:
+            self._city = input("Please Enter Valid Two Letter State ID: ")
+        #zipcode VARCHAR(5),
+        print("Five Digit ZipCode: ")
+        self._zipCode = input("Five Digit Zipcode: ")
+        while self._zipCode is None or len(self._zipCode) < 5:
+            self._zipCode = input("Please Enter Valid Five Digit Zip Code: ")
+        #status TEXT CHECK(status IN ('VALID', 'SUSPENDED', 'INVALID')) NOT NULL DEFAULT 'VALID'
         pass
     
     #updates member information
