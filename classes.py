@@ -124,41 +124,42 @@ class ChocAnSystem:
         pass
 
     def addMember(self):
-        self = Member()
+        mem = Member()
         #member_number VARCHAR(9) PRIMARY KEY,
-        self._memberNumber = input("Nine Digit Member Number: ")
-        while self._memberNumber is None or len(self._memberNumber) < 9:
-            self._memberNumber = input("Please Enter Valid Nine Digit Member Number: ")
+        mem._memberNumber = input("Nine Digit Member Number: ")
+        while mem._memberNumber is None or len(mem._memberNumber) < 9:
+            mem._memberNumber = input("Please Enter Valid Nine Digit Member Number: ")
 
         #first_name VARCHAR(25) NOT NULL,
-        self._firstName = input("First Name:")
-        while self._firstName is None:
-            self._firstName = input("Please Enter Valid First Name:")
+        mem._firstName = input("First Name:")
+        while mem._firstName is None:
+            mem._firstName = input("Please Enter Valid First Name:")
 
         #last_name VARCHAR(25) NOT NULL,
-        self._lastName = input("Last Name:")
-        while self._lastName is None:
-            self._lastName = input("Please Enter Valid Last Name:")
+        mem._lastName = input("Last Name:")
+        while mem._lastName is None:
+            mem._lastName = input("Please Enter Valid Last Name:")
 
         #street_address VARCHAR(25),
-        self._streetAddress = input("Street Address: ")
-        while self._streetAddress is None:
-            self._streetAddress = input("Please Enter Valid Street Address: ")
+        mem._streetAddress = input("Street Address: ")
+        while mem._streetAddress is None:
+            mem._streetAddress = input("Please Enter Valid Street Address: ")
 
         #city VARCHAR(14),
-        self._city = input("City: ")
-        while self._city is None:
-            self._city = input("Please Enter Valid City: ")
+        mem._city = input("City: ")
+        while mem._city is None:
+            mem._city = input("Please Enter Valid City: ")
         #state VARCHAR(2),
-        self._state = input("Two Letter State ID: ")
-        while self._state is None or len(self._city) < 2:
-            self._city = input("Please Enter Valid Two Letter State ID: ")
+        mem._state = input("Two Letter State ID: ")
+        while mem._state is None or len(mem._city) < 2:
+            mem._city = input("Please Enter Valid Two Letter State ID: ")
         #zipcode VARCHAR(5),
         print("Five Digit ZipCode: ")
-        self._zipCode = input("Five Digit Zipcode: ")
-        while self._zipCode is None or len(self._zipCode) < 5:
-            self._zipCode = input("Please Enter Valid Five Digit Zip Code: ")
+        mem._zipCode = input("Five Digit Zipcode: ")
+        while mem._zipCode is None or len(mem._zipCode) < 5:
+            mem._zipCode = input("Please Enter Valid Five Digit Zip Code: ")
         #status TEXT CHECK(status IN ('VALID', 'SUSPENDED', 'INVALID')) NOT NULL DEFAULT 'VALID'
+        self._DB.insert_member(mem)
         pass
     
     #updates member information
