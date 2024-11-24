@@ -167,6 +167,8 @@ class ChocAnSystem:
         pass
 
     def deleteMember(self):
+        mem_num = input("Please Enter Member Number to Delete: ")
+        self._DB.delete_member(mem_num)
         pass
 
     #adds new provider
