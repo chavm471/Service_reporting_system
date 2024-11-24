@@ -1,8 +1,13 @@
 import pytest
 import sqlite3
 from datetime import datetime
+
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from database import DatabaseManager
 from classes import Provider, Member, Service, ServiceRecord, Status
+
 
 @pytest.fixture
 def db():
@@ -212,3 +217,236 @@ def test_long_values_truncation():
         db.insert_provider(long_name_provider)
     
     db.close()
+
+def test_get_service_records_by_provider(db, sample_provider, sample_member, sample_service):
+    """Test retrieving service records for a specific provider"""
+    # Insert test data
+    db.insert_provider(sample_provider)
+    db.insert_member(sample_member)
+    db.insert_service(sample_service)
+
+    # Create and insert multiple service records
+    service_record1 = ServiceRecord(
+        dateReceived=datetime.now(),
+        serviceDate=datetime.now().date(),
+        provider=sample_provider,
+        member=sample_member,
+        service=sample_service,
+        comments="Test comment 1",
+        fee=100.00
+    )
+    
+    service_record2 = ServiceRecord(
+        dateReceived=datetime.now(),
+        serviceDate=datetime.now().date(),
+        provider=sample_provider,
+        member=sample_member,
+        service=sample_service,
+        comments="Test comment 2",
+        fee=150.00
+    )
+    
+    db.insert_service_record(service_record1)
+    db.insert_service_record(service_record2)
+    
+    # Retrieve records for the provider
+    records = db.get_service_records_by_provider(sample_provider._providerNumber)
+    
+    assert len(records) == 2
+    assert all(record._provider._providerNumber == sample_provider._providerNumber for record in records)
+    assert records[0]._comments == "Test comment 1"
+    assert records[1]._comments == "Test comment 2"
+
+def test_get_service_records_by_member(db, sample_provider, sample_member, sample_service):
+    """Test retrieving service records for a specific member"""
+    # Insert test data
+    db.insert_provider(sample_provider)
+    db.insert_member(sample_member)
+    db.insert_service(sample_service)
+
+    # Create and insert multiple service records
+    service_record1 = ServiceRecord(
+        dateReceived=datetime.now(),
+        serviceDate=datetime.now().date(),
+        provider=sample_provider,
+        member=sample_member,
+        service=sample_service,
+        comments="Test comment 1",
+        fee=100.00
+    )
+    
+    service_record2 = ServiceRecord(
+        dateReceived=datetime.now(),
+        serviceDate=datetime.now().date(),
+        provider=sample_provider,
+        member=sample_member,
+        service=sample_service,
+        comments="Test comment 2",
+        fee=150.00
+    )
+    
+    db.insert_service_record(service_record1)
+    db.insert_service_record(service_record2)
+    
+    # Retrieve records for the member
+    records = db.get_service_records_by_member(sample_member._memberNumber)
+    
+    assert len(records) == 2
+    assert all(record._member._memberNumber == sample_member._memberNumber for record in records)
+    assert records[0]._comments == "Test comment 1"
+    assert records[1]._comments == "Test comment 2"
+
+def test_get_service_records_by_provider_empty(db, sample_provider):
+    """Test retrieving service records for a provider with no records"""
+    db.insert_provider(sample_provider)
+    records = db.get_service_records_by_provider(sample_provider._providerNumber)
+    assert len(records) == 0
+
+def test_get_service_records_by_member_empty(db, sample_member):
+    """Test retrieving service records for a member with no records"""
+    db.insert_member(sample_member)
+    records = db.get_service_records_by_member(sample_member._memberNumber)
+    assert len(records) == 0
+
+def test_update_provider(db, sample_provider):
+    """Test updating provider information"""
+    db.insert_provider(sample_provider)
+    
+    # Modify provider details
+    sample_provider._firstname = "Jane"
+    sample_provider._city = "Seattle"
+    sample_provider._state = "WA"
+    
+    db.update_provider(sample_provider)
+    
+    # Verify updates
+    updated_provider = db.get_provider(sample_provider._providerNumber)
+    assert updated_provider._firstname == "Jane"
+    assert updated_provider._city == "Seattle"
+    assert updated_provider._state == "WA"
+
+def test_update_nonexistent_provider(db, sample_provider):
+    """Test updating a provider that doesn't exist"""
+    with pytest.raises(sqlite3.Error):
+        db.update_provider(sample_provider)
+
+def test_update_member(db, sample_member):
+    """Test updating member information"""
+    db.insert_member(sample_member)
+    
+    # Modify member details
+    sample_member._firstName = "Janet"
+    sample_member._city = "Seattle"
+    sample_member._status = Status.SUSPENDED
+    
+    db.update_member(sample_member)
+    
+    # Verify updates
+    updated_member = db.get_member(sample_member._memberNumber)
+    assert updated_member._firstName == "Janet"
+    assert updated_member._city == "Seattle"
+    assert updated_member._status == Status.SUSPENDED
+
+def test_update_nonexistent_member(db, sample_member):
+    """Test updating a member that doesn't exist"""
+    with pytest.raises(sqlite3.Error):
+        db.update_member(sample_member)
+
+def test_update_service(db, sample_service):
+    """Test updating service information"""
+    db.insert_service(sample_service)
+    
+    # Modify service details
+    sample_service._serviceName = "Updated Service"
+    sample_service._fee = 150.00
+    
+    db.update_service(sample_service)
+    
+    # Verify updates
+    updated_service = db.get_service(sample_service._serviceCode)
+    assert updated_service._serviceName == "Updated Service"
+    assert updated_service._fee == 150.00
+
+def test_update_nonexistent_service(db, sample_service):
+    """Test updating a service that doesn't exist"""
+    with pytest.raises(sqlite3.Error):
+        db.update_service(sample_service)
+
+def test_delete_provider(db, sample_provider):
+    """Test deleting a provider"""
+    db.insert_provider(sample_provider)
+    db.delete_provider(sample_provider._providerNumber)
+    
+    # Verify provider is deleted
+    with pytest.raises(sqlite3.Error):
+        db.get_provider(sample_provider._providerNumber)
+
+def test_delete_nonexistent_provider(db):
+    """Test deleting a provider that doesn't exist"""
+    with pytest.raises(sqlite3.Error):
+        db.delete_provider("999999999")
+
+def test_delete_member(db, sample_member):
+    """Test deleting a member"""
+    db.insert_member(sample_member)
+    db.delete_member(sample_member._memberNumber)
+    
+    # Verify member is deleted
+    with pytest.raises(sqlite3.Error):
+        db.get_member(sample_member._memberNumber)
+
+def test_delete_nonexistent_member(db):
+    """Test deleting a member that doesn't exist"""
+    with pytest.raises(sqlite3.Error):
+        db.delete_member("999999999")
+
+def test_delete_service(db, sample_service):
+    """Test deleting a service"""
+    db.insert_service(sample_service)
+    db.delete_service(sample_service._serviceCode)
+    
+    # Verify service is deleted
+    with pytest.raises(sqlite3.Error):
+        db.get_service(sample_service._serviceCode)
+
+def test_delete_nonexistent_service(db):
+    """Test deleting a service that doesn't exist"""
+    with pytest.raises(sqlite3.Error):
+        db.delete_service("999999")
+
+def test_delete_service_record(db, sample_provider, sample_member, sample_service):
+    """Test deleting a service record"""
+    # Insert prerequisites
+    db.insert_provider(sample_provider)
+    db.insert_member(sample_member)
+    db.insert_service(sample_service)
+    
+    # Create and insert a service record
+    service_record = ServiceRecord(
+        dateReceived=datetime.now(),
+        serviceDate=datetime.now().date(),
+        provider=sample_provider,
+        member=sample_member,
+        service=sample_service,
+        comments="Test comment",
+        fee=100.00
+    )
+    db.insert_service_record(service_record)
+    
+    # Delete the service record
+    db.delete_service_record(1)  # Assuming this is the first record with ID 1
+    
+    # Verify service record is deleted
+    assert db.get_service_record(1) == 0
+
+def test_delete_nonexistent_service_record(db):
+    """Test deleting a service record that doesn't exist"""
+    with pytest.raises(sqlite3.Error):
+        db.delete_service_record(999)
+
+def test_delete_provider_with_service_records(db, sample_provider, sample_member, sample_service):
+    """Test deleting a provider who has service records (should fail due to foreign key constraint)"""
+    # Insert prerequisites
+    db.insert_provider(sample_provider)
+    db.insert_member(sample_member)
+    db.insert_service(sample_service)
