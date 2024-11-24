@@ -173,7 +173,15 @@ class ChocAnSystem:
         
         #get provider info
         f_name = input("Enter the first name of the provider")
+        while not re.match(r"^[a-zA-Z]+$",f_name):
+            print("Invalid first name. Only letter are allowed.")
+            f_name = input("Enter the first name of the provider")
+            
         l_name = input("Enter the last name of the provider")
+        while not re.match(r"^[a-zA-Z]+$",f_name):
+            print("Invalid first name. Only letter are allowed.")
+            l_name = input("Enter the last name of the provider")
+
         p_str_addr = input("Enter the street address of provider")
         city = input("Enter the city of provider")
         st = input("Enter the state of the provider")
@@ -181,17 +189,19 @@ class ChocAnSystem:
 
         #make a new Provider object
         new_provider = Provider(f_name,l_name,p_str_addr,city,st,zip)
-        self._db.insert_provider(new_provider)
+        self._DB.insert_provider(new_provider)
         pass
 
     #updates provider information
     def updateProvider(self):
-        prov_id = input("Enter the provider's ID who's info you want to update.")
+        prov_num = input("Enter the provider's ID who's info you want to update.")
+        self._DB.update_provider(prov_num)
         pass
 
     #removes a provider
     def deleteProvider(self):
-        remove_prov = input("Enter the provider's ID who you want to delete.")
+        prov_num = input("Enter the provider's ID who you want to delete.")
+        self._DB.delete_provider(prov_num)
         pass
     
     #adds a new service record
