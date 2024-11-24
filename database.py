@@ -315,29 +315,33 @@ class DatabaseManager:
         print("Information for member number:" + provider_to_del._providerNumber)
         print("1." + provider_to_del._firstname)
         print("2." + provider_to_del._lastname)
-        print("4." + provider_to_del._streetAddress)
-        print("5." + provider_to_del._city)
-        print("6." + provider_to_del._state)
-        print("7." + provider_to_del._zipCode)
+        print("3." + provider_to_del._streetAddress)
+        print("4." + provider_to_del._city)
+        print("5." + provider_to_del._state)
+        print("6." + provider_to_del._zipCode)
 
         #let the user pick what he wants to update
         choice = input("What field would you like to edit?")
         new_value = input("Enter what you want to replace it with")
 
+        #change first name
         if choice == 1:
+            
             pass
-
+        #change last name
         if choice == 2:
             pass
+        #change street address
         if choice == 3:
             pass
+        #change city
         if choice == 4:
             pass
+        #change state
         if choice == 5:
             pass
+        #zipcode
         if choice == 6:
-            pass
-        if choice == 7:
             pass
 
     def remove_provider(self,provider_number):

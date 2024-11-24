@@ -17,7 +17,9 @@ class MenuController:
             #show provide
             member_num = input("enter you membership number")
         else:
+            self.manager_menu._db.get_provider(member_num)
             #show manager
+            self.manager_menu(self)
             pass
 
 
@@ -28,52 +30,42 @@ class MenuController:
 class ProviderMenu():
     def __init__(self,db_manager) -> None:
         self._db = db_manager
-        self._provider = None
         pass
 
     def prompt_provider_menu(self):
-        input:int = None
-        print("Provider Menu")
-        print("1.")
-        print("2.")
-        print("3.")
-        print("4. Add Provider")
-        print("5. Update Provider")
-        print("6. Remove Provider")
-        print("7.")
-
-
-        #add provider
-        if(input == 4):
-            #get provider info
-            f_name = input("Enter the first name of the provider")
-            l_name = input("Enter the last name of the provider")
-            p_str_addr = input("Enter the street address of provider")
-            city = input("Enter the city of provider")
-            st = input("Enter the state of the provider")
-            zip = input("Enter the zipcode of provider")
-
-            #make a new Provider object
-            new_provider = Provider(f_name,l_name,p_str_addr,city,st,zip)
-            self._db.insert_provider(new_provider)
-            pass
-
-        #update provider
-        if(input == 5):
-            update_prov = input("Enter the provider's ID who's info you want to update.")
-            self._db.update_provider(update_prov)
-            pass
-
-        #remove provider
-        if(input == 6):
-            remove_prov = input("Enter the provider's ID who you want to delete.")
-            self._db.remove_provider(remove_prov)
-            pass
-
         pass
 
 
 class ManagerMenu():
-    def __init__(self,db_manager) -> None:
-        self._db = db_manager
+    def __init__(self) -> None:
+        self._choco = ChocAnSystem(self)
         pass
+
+    def prompt_manager_menu(self):
+        selection:int = None
+        print("Manager Menu")
+        print("1. Add Member")
+        print("2. Remove Member")
+        print("3. Update Member")
+        print("4. Add Provider")
+        print("5. Update Provider")
+        print("6. Remove Provider")
+        print("7. Add Service")
+        print("8. Remove Service")
+        print("9. Weekly reports")
+        selection = input()
+
+        #add provider
+        if(selection == 4):
+            #call the insert provider function from chocansystem class
+            pass
+
+        #update provider
+        if(selection == 5):
+            self._choco.updateProvider()
+            pass
+
+        #remove provider
+        if(selection == 6):
+            #call the remove provider from chocansystem class
+            pass

@@ -5,6 +5,7 @@ import re               # Regex (idx might come in handy, it's good to have too 
 import logging          # Nice interface for logging, just captures timestamp and formats nice
 from dataclasses import dataclass, field # Class helpers, py 3.8+ features that make classes much shorter to write
 from typing import *    # Type hinting
+from database import DatabaseManager
 
 class Status(Enum):
     VALID = 1
@@ -113,6 +114,7 @@ class ChocAnSystem:
         self._services = None
         #list of service Record objects
         self._serviceRecords = None
+        self._DB = DatabaseManager()
         pass
 
     def validateMember(self):
@@ -133,14 +135,28 @@ class ChocAnSystem:
 
     #adds new provider
     def addProvider(self):
+        
+        #get provider info
+        f_name = input("Enter the first name of the provider")
+        l_name = input("Enter the last name of the provider")
+        p_str_addr = input("Enter the street address of provider")
+        city = input("Enter the city of provider")
+        st = input("Enter the state of the provider")
+        zip = input("Enter the zipcode of provider")
+
+        #make a new Provider object
+        new_provider = Provider(f_name,l_name,p_str_addr,city,st,zip)
+        self._db.insert_provider(new_provider)
         pass
 
     #updates provider information
     def updateProvider(self):
+        prov_id = input("Enter the provider's ID who's info you want to update.")
         pass
 
     #removes a provider
     def deleteProvider(self):
+        remove_prov = input("Enter the provider's ID who you want to delete.")
         pass
     
     #adds a new service record
