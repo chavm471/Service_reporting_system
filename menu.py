@@ -55,7 +55,7 @@ class ManagerMenu():
         print("9. Weekly reports")
         selection = input("Enter option:")
         while not re.match(r"^\d{1}$", selection):
-            print("Invalid ZIP code. Enter exactly 5 digits.")
+            print("Invalid option. Enter exactly 1 digit")
             selection = input("Enter option:")
 
         #add provider
