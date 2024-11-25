@@ -154,7 +154,6 @@ class ChocAnSystem:
         while mem._state is None or len(mem._city) < 2:
             mem._city = input("Please Enter Valid Two Letter State ID: ")
         #zipcode VARCHAR(5),
-        print("Five Digit ZipCode: ")
         mem._zipCode = input("Five Digit Zipcode: ")
         while mem._zipCode is None or len(mem._zipCode) < 5:
             mem._zipCode = input("Please Enter Valid Five Digit Zip Code: ")
@@ -164,6 +163,48 @@ class ChocAnSystem:
     
     #updates member information
     def updateMember(self):
+        mem_num = input("Enter Mumber Number to Update: ")
+        member = self._DB.get_member(mem_num)
+        selection = 0
+        print("Select Member Field to Update\n")
+        print("1. First Name")
+        print("2. Last Name")
+        print("3. Street Address")
+        print("4. City")
+        print("5. State")
+        print("6. Zip Code")
+        print("7. Status")
+        while selection < 1 or selection > 7:
+            selection = input("Selection: ")
+        if(selection == 1):
+            member._firstName = input("Updated First Name:")
+            while member._firstName is None:
+                member._firstName = input("Please Enter Valid First Name:") 
+        elif(selection == 2):
+            member._lastName = input("Updated Last Name:")
+            while member._lastName is None:
+                member._lastName = input("Please Enter Valid Last Name:") 
+        elif(selection == 3):
+            member._streetAddress = input("Update Street Address: ")
+            while member._streetAddress is None:
+                member._streetAddress = input("Please Enter Valid Street Address: ")
+        elif(selection == 4):
+            member._city = input("Updated City: ")
+            while member._city is None:
+                member._city = input("Please Enter Valid City: ")     
+        elif(selection == 5):
+            member._state = input("Updated Two Letter State ID: ")
+            while member._state is None or len(member._city) < 2:
+                member._city = input("Please Enter Valid Two Letter State ID: ")
+        elif(selection == 6):
+            member._zipCode = input("Updated Five Digit Zipcode: ")
+            while member._zipCode is None or len(member._zipCode) < 5:
+                member._zipCode = input("Please Enter Valid Five Digit Zip Code: ")
+        elif(selection == 7):
+            member._status = input("Updated Status:")
+            while member._status is None:
+                member._status = input("Please Enter Valid Status")
+        self._DB.update_member(member)        
         pass
 
     def deleteMember(self):
