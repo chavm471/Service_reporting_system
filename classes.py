@@ -25,6 +25,7 @@ class Member:
         self._zipCode = zipCode
         self._status = status
 
+    # do we need this and the validateMember func in ChocAnSystem? - Gil
     def validate(self):
         pass
     
@@ -88,7 +89,6 @@ class ServiceRecord:
         self._fee = fee
 
     # Do we actually need this function ?? - Gil
-    
     #initializes a new service record. 
     def createRecord(self):
         #recordId = GenerateUniqueID()
@@ -107,15 +107,16 @@ class ServiceRecord:
         pass
 
 class ChocAnSystem:
+    # do we need any of these class members????
     def __init__(self) -> None:
         #list of members objects
-        self._members = None
+        #self._members = None
         #list of Provider objects
-        self._providers = None
+        #self._providers = None
         #list of service objects
-        self._services = None
+        #self._services = None
         #list of service Record objects
-        self._serviceRecords = None
+        #self._serviceRecords = None
         self._DB = DatabaseManager()
         pass
 
@@ -266,7 +267,7 @@ class ChocAnSystem:
         pass
     
     #adds a new service record
-    def addServiceRecord(self):
+    def addService(self):
         self = Service()
         #service_code VARCHAR(6) PRIMARY KEY
         self._serviceCode = input("Six Digit Service Code:")
@@ -278,7 +279,7 @@ class ChocAnSystem:
             self._serviceName = input("Please Enter a Service Name less than Twenty Characters: ")
         #fee DECIMAL(8,2)
         self._fee = input("Service Name:")
-        while self._fee is None or len(self._fee) < 8:
+        while self._fee is None or len(self._fee) > 8:
             self._fee = input("Please Enter a Fee less than Eight Digits: ")
         pass
     
@@ -288,6 +289,75 @@ class ChocAnSystem:
         while serv_num is None or len(serv_num) < 6:
             serv_num = input("Enter the six digit service code you wish to delete: ")
         self._DB.delete_service(serv_num)
+
+    def addServiceRecord(self):
+        #primary key is an autoincr int
+        #date_received DATETIME NOT NULL
+        # service_date DATE NOT NULL
+        # provider_number VARCHAR(9) NOT NULL
+        # member_number VARCHAR(9) NOT NULL
+        # service_code VARCHAR(6) NOT NULL
+        # comments VARCHAR(100)
+        # fee DECIMAL(8,2) NOT NULL
+        rec = ServiceRecord()
+        #
+        '''
+        self._dateReceived = dateReceived if dateReceived else date.today()
+        self._serviceDate = serviceDate if serviceDate else date.today()
+        self._provider = provider
+        self._member = member 
+        self._service = service
+        self._comments = comments
+        self._fee = fee
+                mem = Member()
+        #member_number VARCHAR(9) PRIMARY KEY,
+        mem._memberNumber = input("Nine Digit Member Number: ")
+        while mem._memberNumber is None or len(mem._memberNumber) < 9:
+            mem._memberNumber = input("Please Enter Valid Nine Digit Member Number: ")
+
+        #first_name VARCHAR(25) NOT NULL,
+        mem._firstName = input("First Name:")
+        while mem._firstName is None:
+            mem._firstName = input("Please Enter Valid First Name:")
+
+        #last_name VARCHAR(25) NOT NULL,
+        mem._lastName = input("Last Name:")
+        while mem._lastName is None:
+            mem._lastName = input("Please Enter Valid Last Name:")
+
+        #street_address VARCHAR(25),
+        mem._streetAddress = input("Street Address: ")
+        while mem._streetAddress is None:
+            mem._streetAddress = input("Please Enter Valid Street Address: ")
+
+        #city VARCHAR(14),
+        mem._city = input("City: ")
+        while mem._city is None:
+            mem._city = input("Please Enter Valid City: ")
+        #state VARCHAR(2),
+        mem._state = input("Two Letter State ID: ")
+        while mem._state is None or len(mem._city) < 2:
+            mem._city = input("Please Enter Valid Two Letter State ID: ")
+        #zipcode VARCHAR(5),
+        mem._zipCode = input("Five Digit Zipcode: ")
+        while mem._zipCode is None or len(mem._zipCode) < 5:
+            mem._zipCode = input("Please Enter Valid Five Digit Zip Code: ")
+        #status TEXT CHECK(status IN ('VALID', 'SUSPENDED', 'INVALID')) NOT NULL DEFAULT 'VALID'
+        self._DB.insert_member(mem)
+        pass
+    
+    '''
+        pass
+
+    def updateServiceRecord(self):
+        pass
+
+    def deleteServiceRecord(self):
+        rec_num = input("Enter the Service Record ID of the record to delete: ")
+        while rec_num is None:
+            rec_num = input("Enter the Service Record ID of the record to delete: ")
+        self._DB.delete_service_record(rec_num)
+             
 
     #updates member statuses based on payment
     def processMembershipPayments(self):
