@@ -344,6 +344,7 @@ class ChocAnSystem:
 
 class ReportGenerator:
     def __init__(self) -> None:
+		#did this work?
         pass
 
     #creates a report for a specific member
