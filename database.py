@@ -157,7 +157,7 @@ class DatabaseManager:
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS service_records (
                 service_record_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                date_received DATETIME NOT NULL,
+                date_received DATE NOT NULL,
                 service_date DATE NOT NULL,
                 provider_number VARCHAR(9) NOT NULL,
                 member_number VARCHAR(9) NOT NULL,

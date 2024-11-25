@@ -6,6 +6,7 @@ import logging          # Nice interface for logging, just captures timestamp an
 from dataclasses import dataclass, field # Class helpers, py 3.8+ features that make classes much shorter to write
 from typing import *    # Type hinting
 from database import DatabaseManager
+from datetime import datetime
 
 class Status(Enum):
     VALID = 1
@@ -300,54 +301,16 @@ class ChocAnSystem:
         # comments VARCHAR(100)
         # fee DECIMAL(8,2) NOT NULL
         rec = ServiceRecord()
-        #
-        '''
-        self._dateReceived = dateReceived if dateReceived else date.today()
-        self._serviceDate = serviceDate if serviceDate else date.today()
-        self._provider = provider
-        self._member = member 
-        self._service = service
-        self._comments = comments
-        self._fee = fee
-                mem = Member()
-        #member_number VARCHAR(9) PRIMARY KEY,
-        mem._memberNumber = input("Nine Digit Member Number: ")
-        while mem._memberNumber is None or len(mem._memberNumber) < 9:
-            mem._memberNumber = input("Please Enter Valid Nine Digit Member Number: ")
-
-        #first_name VARCHAR(25) NOT NULL,
-        mem._firstName = input("First Name:")
-        while mem._firstName is None:
-            mem._firstName = input("Please Enter Valid First Name:")
-
-        #last_name VARCHAR(25) NOT NULL,
-        mem._lastName = input("Last Name:")
-        while mem._lastName is None:
-            mem._lastName = input("Please Enter Valid Last Name:")
-
-        #street_address VARCHAR(25),
-        mem._streetAddress = input("Street Address: ")
-        while mem._streetAddress is None:
-            mem._streetAddress = input("Please Enter Valid Street Address: ")
-
-        #city VARCHAR(14),
-        mem._city = input("City: ")
-        while mem._city is None:
-            mem._city = input("Please Enter Valid City: ")
-        #state VARCHAR(2),
-        mem._state = input("Two Letter State ID: ")
-        while mem._state is None or len(mem._city) < 2:
-            mem._city = input("Please Enter Valid Two Letter State ID: ")
-        #zipcode VARCHAR(5),
-        mem._zipCode = input("Five Digit Zipcode: ")
-        while mem._zipCode is None or len(mem._zipCode) < 5:
-            mem._zipCode = input("Please Enter Valid Five Digit Zip Code: ")
-        #status TEXT CHECK(status IN ('VALID', 'SUSPENDED', 'INVALID')) NOT NULL DEFAULT 'VALID'
-        self._DB.insert_member(mem)
-        pass
-    
-    '''
-        pass
+        date_input = input("Date Record Recieved (YYYY-MM-DD): ")
+        rec._dateReceived = datetime.strptime(date_input, "%Y-%m-%d")
+        date_input = input("Service Date (YYYY-MM-DD): ")
+        rec._serviceDate = datetime.strptime(date_input, "%Y-%m-%d")
+        #rec._provider = input("Nine Digit Provider Number: ")
+        #rec._member = input("Nine Digit Member Number: ")
+        #rec._service = input("Six Digit Service Number: ")
+        #rec._comments = input("Comments for Service Record: ")
+        #rec._fee = input("Service Fee: ")
+        self._DB.insert_service_record(rec)
 
     def updateServiceRecord(self):
         pass
