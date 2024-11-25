@@ -87,7 +87,9 @@ class ServiceRecord:
         self._comments = comments
         self._fee = fee
 
-    #initializes a new service record
+    # Do we actually need this function ?? - Gil
+    
+    #initializes a new service record. 
     def createRecord(self):
         #recordId = GenerateUniqueID()
         #dateReceived = date.today()
