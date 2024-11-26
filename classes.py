@@ -253,8 +253,49 @@ class ChocAnSystem:
 
     #updates provider information
     def updateProvider(self):
+        #variables
+        selection = 0
+
         prov_num = input("Enter the provider's ID who's info you want to update.")
-        self._DB.update_provider(prov_num)
+        temp_prov = self._DB.get_member(prov_num)
+        print("Select Provider Field to Update\n")
+        print("1. First Name")
+        print("2. Last Name")
+        print("3. Street Address")
+        print("4. City")
+        print("5. State")
+        print("6. Zip Code")
+        while selection < 1 or selection > 7:
+            selection = input("Selection: ")
+        if(selection == 1):
+            temp_prov._firstName = input("Updated First Name:")
+            while temp_prov._firstName is None:
+                temp_prov._firstName = input("Please Enter Valid First Name:") 
+        elif(selection == 2):
+            temp_prov._lastName = input("Updated Last Name:")
+            while temp_prov._lastName is None:
+                temp_prov._lastName = input("Please Enter Valid Last Name:") 
+        elif(selection == 3):
+            temp_prov._streetAddress = input("Update Street Address: ")
+            while temp_prov._streetAddress is None:
+                temp_prov._streetAddress = input("Please Enter Valid Street Address: ")
+        elif(selection == 4):
+            temp_prov._city = input("Updated City: ")
+            while temp_prov._city is None:
+                temp_prov._city = input("Please Enter Valid City: ")     
+        elif(selection == 5):
+            temp_prov._state = input("Updated Two Letter State ID: ")
+            while temp_prov._state is None or len(temp_prov._city) < 2:
+                temp_prov._city = input("Please Enter Valid Two Letter State ID: ")
+        elif(selection == 6):
+            temp_prov._zipCode = input("Updated Five Digit Zipcode: ")
+            while temp_prov._zipCode is None or len(temp_prov._zipCode) < 5:
+                temp_prov._zipCode = input("Please Enter Valid Five Digit Zip Code: ")
+        elif(selection == 7):
+            temp_prov._status = input("Updated Status:")
+            while temp_prov._status is None:
+                temp_prov._status = input("Please Enter Valid Status")
+        self._DB.update_provider(temp_prov)        
         pass
 
     #removes a provider
