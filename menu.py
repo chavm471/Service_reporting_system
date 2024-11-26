@@ -16,8 +16,9 @@ class MenuController:
         if mode == 1:
             #show provide
             member_num = input("enter you membership number")
+            self.provider_menu.prompt_provider_menu()
         else:
-            self.manager_menu._db.get_provider(member_num)
+            self.manager_menu.prompt_manager_menu()
             #show manager
             self.manager_menu(self)
             pass
