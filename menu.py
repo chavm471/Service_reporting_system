@@ -10,10 +10,10 @@ class MenuController:
         print("select what mode you want")
         print("0.Manager mode")
         print("1.Provider Mode")
-        mode = input()
+        mode:int = input()
 
         #check if its manager or provider
-        if mode:
+        if mode == 1:
             #show provide
             member_num = input("enter you membership number")
         else:
@@ -28,8 +28,7 @@ class MenuController:
         #or provider menu
 
 class ProviderMenu():
-    def __init__(self,db_manager) -> None:
-        self._db = db_manager
+    def __init__(self) -> None:
         pass
 
     def prompt_provider_menu(self):
@@ -38,7 +37,7 @@ class ProviderMenu():
 
 class ManagerMenu():
     def __init__(self) -> None:
-        self._choco = ChocAnSystem(self)
+        self._choco = ChocAnSystem()
         pass
 
     def prompt_manager_menu(self):

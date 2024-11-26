@@ -5,7 +5,6 @@ import re               # Regex (idx might come in handy, it's good to have too 
 import logging          # Nice interface for logging, just captures timestamp and formats nice
 from dataclasses import dataclass, field # Class helpers, py 3.8+ features that make classes much shorter to write
 from typing import *    # Type hinting
-from database import DatabaseManager
 
 class Status(Enum):
     VALID = 1
@@ -114,7 +113,11 @@ class ChocAnSystem:
         self._services = None
         #list of service Record objects
         self._serviceRecords = None
-        self._DB = DatabaseManager()
+
+        #import Database manager locally to not get
+        #circular depencies
+        from database import DatabaseManager
+        self._DB = DatabaseManager("chocoDB")
         pass
 
     def validateMember(self):
