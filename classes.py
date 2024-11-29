@@ -120,6 +120,9 @@ class ChocAnSystem:
         self._DB = DatabaseManager("chocoDB")
         pass
 
+    # print validated if member id is found
+    # print Invalid if member id is not found or suspended
+    # return valid id or 0 if invalid
     def validateMember(self):
         pass
 
