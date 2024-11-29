@@ -12,6 +12,7 @@ from database import *
 def main():
     prog = Menu()
     prog.startup()
+    prog.main_menu()
     database = DatabaseManager("chocoDB")
     database.create_tables()
 
