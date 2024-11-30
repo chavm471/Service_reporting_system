@@ -10,12 +10,14 @@ from menu import *
 from database import *
 
 def main():
-    menu_inst = MenuController()
+    prog = Menu()
+    prog.startup()
+    prog.main_menu()
     database = DatabaseManager("chocoDB")
-
     database.create_tables()
 
-    menu_inst.startmenu()
+ #  menu_inst = MenuController()
+ #  menu_inst.startmenu()
 
     return 0
 
