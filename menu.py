@@ -7,7 +7,7 @@ class MenuController:
         self.manager_menu = ManagerMenu()
         pass
 
-    def startmenu(self):
+    """def startmenu(self):
         print("select what mode you want")
         print("0.Manager mode")
         print("1.Provider Mode")
@@ -28,6 +28,7 @@ class MenuController:
         #go either into manager menu
 
         #or provider menu
+        """
 
 class ProviderMenu():
     def __init__(self) -> None:
