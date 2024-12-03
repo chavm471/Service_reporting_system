@@ -348,8 +348,10 @@ class ReportGenerator:
         pass
 
     #creates a report for a specific member
-    def generateMemberReport(self):
-        pass
+    def generateMemberReport(self, member_number):
+		Member member = DatabaseManager.get_member(member_number)
+		print("First name: " + member._firstName)
+		print("Last name: " + member._lastName)
 
     #creates a report for a specific provider
     def generateProviderReport(self):
