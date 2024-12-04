@@ -174,22 +174,22 @@ class Menu:
             print("0: Close the terminal\n\n")
             option = self.get_option(0, 9)
 
-            if option == 1:
-                pass
+            if option == 1: 
+                self._chocsystem.addMember()
             if option == 2:
-                pass
+                self._chocsystem.deleteMember()
             if option == 3:
-                pass
+                self._chocsystem.updateMember()
             if option == 4:
-                pass
+                self._chocsystem.addProvider()
             if option == 5:
-                pass
+                self._chocsystem.deleteProvider()
             if option == 6:
-                pass
+                self._chocsystem.updateProvider()
             if option == 7:
-                pass
+                self._chocsystem.addService()
             if option == 8:
-                pass
+                self._chocsystem.deleteService()
             if option == 9:
                 pass
 

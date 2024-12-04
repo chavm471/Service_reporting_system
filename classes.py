@@ -24,6 +24,56 @@ class Member:
         self._zipCode = zipCode
         self._status = status
 
+    @classmethod
+    def prompt_member_constructor(self):
+        # Create a new member by prompting for each field
+        member_number = input("Enter member number (9 digits): ")
+        while not re.match(r"^\d{9}$", member_number):
+            print("Invalid member number. Must be exactly 9 digits")
+            member_number = input("Enter member number (9 digits): ")
+
+        first_name = input("Enter first name: ")
+        while not first_name:
+            print("First name cannot be empty")
+            first_name = input("Enter first name: ")
+
+        last_name = input("Enter last name: ")
+        while not last_name:
+            print("Last name cannot be empty") 
+            last_name = input("Enter last name: ")
+
+        street_address = input("Enter street address: ")
+        while not street_address:
+            print("Street address cannot be empty")
+            street_address = input("Enter street address: ")
+
+        city = input("Enter city: ")
+        while not city:
+            print("City cannot be empty")
+            city = input("Enter city: ")
+
+        state = input("Enter state (2 letters): ")
+        while not re.match(r"^[A-Z]{2}$", state.upper()):
+            print("Invalid state. Must be exactly 2 letters")
+            state = input("Enter state (2 letters): ")
+
+        zip_code = input("Enter ZIP code (5 digits): ")
+        while not re.match(r"^\d{5}$", zip_code):
+            print("Invalid ZIP code. Must be exactly 5 digits")
+            zip_code = input("Enter ZIP code (5 digits): ")
+
+        # Create and return new Member object with validated inputs
+        return Member(
+            memberNumber=member_number,
+            firstName=first_name,
+            lastName=last_name,
+            streetAddress=street_address,
+            city=city,
+            state=state.upper(),
+            zipCode=zip_code,
+            status=Status.VALID
+        )
+
     def validate(self):
         pass
     
@@ -43,6 +93,61 @@ class Provider:
         self._city = city
         self._state = state
         self._zipCode = zipCode
+
+    @classmethod
+    def prompt_provider_constructor(self):
+        # Get and validate provider number
+        provider_number = input("Enter provider number (9 digits): ")
+        while not re.match(r"^\d{9}$", provider_number):
+            print("Invalid provider number. Must be exactly 9 digits")
+            provider_number = input("Enter provider number (9 digits): ")
+
+        # Get and validate first name
+        first_name = input("Enter first name: ")
+        while not first_name:
+            print("First name cannot be empty")
+            first_name = input("Enter first name: ")
+
+        # Get and validate last name  
+        last_name = input("Enter last name: ")
+        while not last_name:
+            print("Last name cannot be empty")
+            last_name = input("Enter last name: ")
+
+        # Get and validate street address
+        street_address = input("Enter street address: ")
+        while not street_address:
+            print("Street address cannot be empty")
+            street_address = input("Enter street address: ")
+
+        # Get and validate city
+        city = input("Enter city: ")
+        while not city:
+            print("City cannot be empty") 
+            city = input("Enter city: ")
+
+        # Get and validate state
+        state = input("Enter state (2 letters): ")
+        while not re.match(r"^[A-Z]{2}$", state.upper()):
+            print("Invalid state. Must be exactly 2 letters")
+            state = input("Enter state (2 letters): ")
+
+        # Get and validate ZIP code
+        zip_code = input("Enter ZIP code (5 digits): ")
+        while not re.match(r"^\d{5}$", zip_code):
+            print("Invalid ZIP code. Must be exactly 5 digits")
+            zip_code = input("Enter ZIP code (5 digits): ")
+
+        # Create and return new Provider object with validated inputs
+        return Provider(
+            providerNumber=provider_number,
+            firstName=first_name,
+            lastName=last_name,
+            streetAddress=street_address,
+            city=city,
+            state=state.upper(),
+            zipCode=zip_code
+        )
 
     def validate(self):
         pass
@@ -181,7 +286,7 @@ class ChocAnSystem:
         print("6. Zip Code")
         print("7. Status")
         while selection < 1 or selection > 7:
-            selection = input("Selection: ")
+            selection = int(input("Selection: "))
         if(selection == 1):
             member._firstName = input("Updated First Name:")
             while member._firstName is None:
@@ -309,6 +414,30 @@ class ChocAnSystem:
         prov_num = input("Enter the provider's ID who you want to delete.")
         self._DB.delete_provider(prov_num)
         pass
+
+    def addService(self):
+        self = Service()
+        #service_code VARCHAR(6) PRIMARY KEY
+        self._serviceCode = input("Six Digit Service Code:")
+        while self._serviceCode is None or len(self._serviceCode) < 6:
+            self._serviceCode = input("Please Enter Valid Six Digit Service Code: ")
+        #service_name VARCHAR(20) 
+        self._serviceName = input("Service Name:")
+        while self._serviceName is None or len(self._serviceName) < 20:
+            self._serviceName = input("Please Enter a Service Name less than Twenty Characters: ")
+        #fee DECIMAL(8,2)
+        self._fee = input("Service Fee:")
+        while self._fee is None or len(self._fee) < 8:
+            self._fee = input("Please Enter a Fee less than Eight Digits: ")
+        self._DB.add_service(self)
+        pass
+    
+    def deleteService(self):
+        serv_num = input("Enter the six digit service code you wish to delete: ")
+        while serv_num is None or len(serv_num) < 6:
+            serv_num = input("Enter the six digit service code you wish to delete: ")
+        self._DB.delete_service(serv_num)
+
     
     #adds a new service record
     def addServiceRecord(self):
