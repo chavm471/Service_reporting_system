@@ -5,8 +5,11 @@ import re               # Regex (idx might come in handy, it's good to have too 
 import logging          # Nice interface for logging, just captures timestamp and formats nice
 from dataclasses import dataclass, field # Class helpers, py 3.8+ features that make classes much shorter to write
 from typing import *    # Type hinting
+<<<<<<< HEAD
 from database import DatabaseManager
 from datetime import datetime
+=======
+>>>>>>> ccb3743579e6c5a72cd29cc732f4962826759685
 
 class Status(Enum):
     VALID = 1
@@ -26,7 +29,60 @@ class Member:
         self._zipCode = zipCode
         self._status = status
 
+<<<<<<< HEAD
     # do we need this and the validateMember func in ChocAnSystem? - Gil
+=======
+    @classmethod
+    def prompt_member_constructor(self):
+        # Create a new member by prompting for each field
+        member_number = input("Enter member number (9 digits): ")
+        while not re.match(r"^\d{9}$", member_number):
+            print("Invalid member number. Must be exactly 9 digits")
+            member_number = input("Enter member number (9 digits): ")
+
+        first_name = input("Enter first name: ")
+        while not first_name:
+            print("First name cannot be empty")
+            first_name = input("Enter first name: ")
+
+        last_name = input("Enter last name: ")
+        while not last_name:
+            print("Last name cannot be empty") 
+            last_name = input("Enter last name: ")
+
+        street_address = input("Enter street address: ")
+        while not street_address:
+            print("Street address cannot be empty")
+            street_address = input("Enter street address: ")
+
+        city = input("Enter city: ")
+        while not city:
+            print("City cannot be empty")
+            city = input("Enter city: ")
+
+        state = input("Enter state (2 letters): ")
+        while not re.match(r"^[A-Z]{2}$", state.upper()):
+            print("Invalid state. Must be exactly 2 letters")
+            state = input("Enter state (2 letters): ")
+
+        zip_code = input("Enter ZIP code (5 digits): ")
+        while not re.match(r"^\d{5}$", zip_code):
+            print("Invalid ZIP code. Must be exactly 5 digits")
+            zip_code = input("Enter ZIP code (5 digits): ")
+
+        # Create and return new Member object with validated inputs
+        return Member(
+            memberNumber=member_number,
+            firstName=first_name,
+            lastName=last_name,
+            streetAddress=street_address,
+            city=city,
+            state=state.upper(),
+            zipCode=zip_code,
+            status=Status.VALID
+        )
+
+>>>>>>> ccb3743579e6c5a72cd29cc732f4962826759685
     def validate(self):
         pass
     
@@ -46,6 +102,61 @@ class Provider:
         self._city = city
         self._state = state
         self._zipCode = zipCode
+
+    @classmethod
+    def prompt_provider_constructor(self):
+        # Get and validate provider number
+        provider_number = input("Enter provider number (9 digits): ")
+        while not re.match(r"^\d{9}$", provider_number):
+            print("Invalid provider number. Must be exactly 9 digits")
+            provider_number = input("Enter provider number (9 digits): ")
+
+        # Get and validate first name
+        first_name = input("Enter first name: ")
+        while not first_name:
+            print("First name cannot be empty")
+            first_name = input("Enter first name: ")
+
+        # Get and validate last name  
+        last_name = input("Enter last name: ")
+        while not last_name:
+            print("Last name cannot be empty")
+            last_name = input("Enter last name: ")
+
+        # Get and validate street address
+        street_address = input("Enter street address: ")
+        while not street_address:
+            print("Street address cannot be empty")
+            street_address = input("Enter street address: ")
+
+        # Get and validate city
+        city = input("Enter city: ")
+        while not city:
+            print("City cannot be empty") 
+            city = input("Enter city: ")
+
+        # Get and validate state
+        state = input("Enter state (2 letters): ")
+        while not re.match(r"^[A-Z]{2}$", state.upper()):
+            print("Invalid state. Must be exactly 2 letters")
+            state = input("Enter state (2 letters): ")
+
+        # Get and validate ZIP code
+        zip_code = input("Enter ZIP code (5 digits): ")
+        while not re.match(r"^\d{5}$", zip_code):
+            print("Invalid ZIP code. Must be exactly 5 digits")
+            zip_code = input("Enter ZIP code (5 digits): ")
+
+        # Create and return new Provider object with validated inputs
+        return Provider(
+            providerNumber=provider_number,
+            firstName=first_name,
+            lastName=last_name,
+            streetAddress=street_address,
+            city=city,
+            state=state.upper(),
+            zipCode=zip_code
+        )
 
     def validate(self):
         pass
@@ -117,10 +228,22 @@ class ChocAnSystem:
         #list of service objects
         #self._services = None
         #list of service Record objects
+<<<<<<< HEAD
         #self._serviceRecords = None
         self._DB = DatabaseManager()
+=======
+        self._serviceRecords = None
+
+        #import Database manager locally to not get
+        #circular depencies
+        from database import DatabaseManager
+        self._DB = DatabaseManager("chocoDB")
+>>>>>>> ccb3743579e6c5a72cd29cc732f4962826759685
         pass
 
+    # print validated if member id is found
+    # print Invalid if member id is not found or suspended
+    # return valid id or 0 if invalid
     def validateMember(self):
         pass
 
@@ -179,7 +302,7 @@ class ChocAnSystem:
         print("6. Zip Code")
         print("7. Status")
         while selection < 1 or selection > 7:
-            selection = input("Selection: ")
+            selection = int(input("Selection: "))
         if(selection == 1):
             member._firstName = input("Updated First Name:")
             while member._firstName is None:
@@ -257,8 +380,49 @@ class ChocAnSystem:
 
     #updates provider information
     def updateProvider(self):
+        #variables
+        selection = 0
+
         prov_num = input("Enter the provider's ID who's info you want to update.")
-        self._DB.update_provider(prov_num)
+        temp_prov = self._DB.get_member(prov_num)
+        print("Select Provider Field to Update\n")
+        print("1. First Name")
+        print("2. Last Name")
+        print("3. Street Address")
+        print("4. City")
+        print("5. State")
+        print("6. Zip Code")
+        while selection < 1 or selection > 7:
+            selection = input("Selection: ")
+        if(selection == 1):
+            temp_prov._firstName = input("Updated First Name:")
+            while temp_prov._firstName is None:
+                temp_prov._firstName = input("Please Enter Valid First Name:") 
+        elif(selection == 2):
+            temp_prov._lastName = input("Updated Last Name:")
+            while temp_prov._lastName is None:
+                temp_prov._lastName = input("Please Enter Valid Last Name:") 
+        elif(selection == 3):
+            temp_prov._streetAddress = input("Update Street Address: ")
+            while temp_prov._streetAddress is None:
+                temp_prov._streetAddress = input("Please Enter Valid Street Address: ")
+        elif(selection == 4):
+            temp_prov._city = input("Updated City: ")
+            while temp_prov._city is None:
+                temp_prov._city = input("Please Enter Valid City: ")     
+        elif(selection == 5):
+            temp_prov._state = input("Updated Two Letter State ID: ")
+            while temp_prov._state is None or len(temp_prov._city) < 2:
+                temp_prov._city = input("Please Enter Valid Two Letter State ID: ")
+        elif(selection == 6):
+            temp_prov._zipCode = input("Updated Five Digit Zipcode: ")
+            while temp_prov._zipCode is None or len(temp_prov._zipCode) < 5:
+                temp_prov._zipCode = input("Please Enter Valid Five Digit Zip Code: ")
+        elif(selection == 7):
+            temp_prov._status = input("Updated Status:")
+            while temp_prov._status is None:
+                temp_prov._status = input("Please Enter Valid Status")
+        self._DB.update_provider(temp_prov)        
         pass
 
     #removes a provider
@@ -266,6 +430,30 @@ class ChocAnSystem:
         prov_num = input("Enter the provider's ID who you want to delete.")
         self._DB.delete_provider(prov_num)
         pass
+
+    def addService(self):
+        self = Service()
+        #service_code VARCHAR(6) PRIMARY KEY
+        self._serviceCode = input("Six Digit Service Code:")
+        while self._serviceCode is None or len(self._serviceCode) < 6:
+            self._serviceCode = input("Please Enter Valid Six Digit Service Code: ")
+        #service_name VARCHAR(20) 
+        self._serviceName = input("Service Name:")
+        while self._serviceName is None or len(self._serviceName) < 20:
+            self._serviceName = input("Please Enter a Service Name less than Twenty Characters: ")
+        #fee DECIMAL(8,2)
+        self._fee = input("Service Fee:")
+        while self._fee is None or len(self._fee) < 8:
+            self._fee = input("Please Enter a Fee less than Eight Digits: ")
+        self._DB.add_service(self)
+        pass
+    
+    def deleteService(self):
+        serv_num = input("Enter the six digit service code you wish to delete: ")
+        while serv_num is None or len(serv_num) < 6:
+            serv_num = input("Enter the six digit service code you wish to delete: ")
+        self._DB.delete_service(serv_num)
+
     
     #adds a new service record
     def addService(self):
