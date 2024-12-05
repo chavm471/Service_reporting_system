@@ -5,6 +5,7 @@ import re               # Regex (idx might come in handy, it's good to have too 
 import logging          # Nice interface for logging, just captures timestamp and formats nice
 from dataclasses import dataclass, field # Class helpers, py 3.8+ features that make classes much shorter to write
 from typing import *    # Type hinting
+import sys
 
 class Status(Enum):
     VALID = 1
@@ -474,27 +475,44 @@ class ChocAnSystem:
     #creates a report for a specific member
     def generateMemberReport(self, member_number):
         member = self._DB.get_member(member_number)
-        print("*" + member.__repr__)
-        print("Services:")
-        service_list = self._DB.get_service_records_by_member()
-        for serv in service_list:
-            serv.displayInfo()
+
+        file = "member_" + member_number + "_report.txt"
+        with open(file, "w") as f:
+            original_std = sys.stdout
+            sys.stdout = f
+
+            print(member.__repr__)
+            print("Services:")
+            service_list = self._DB.get_service_records_by_member()
+            for serv in service_list:
+                serv.displayInfo()
+        sys.stdout = original_std
+        f.close()
+
 
 
     #creates a report for a specific provider
     def generateProviderReport(self, provider_number):
         provider = self._DB.get_provider(provider_number)
-        print("*" + provider.__repr__)
-        print("Services:")
-        service_list = self._DB.get_service_records_by_provider()
-        consultations = 0
-        total_fee = 0
-        for serv in service_list:
-            serv.displayInfo()
-            consultations += 1
-            total_fee = total_fee + serv.fee
-        print("Total consulations:" + consultations)
-        print("Total fee:" + total_fee)
+        file = "provider_" + member_number + "_report.txt"
+        with open(file, "w") as f:
+            original_std = sys.stdout
+            sys.stdout = f
+
+            print(provider.__repr__)
+            print("Services:")
+            service_list = self._DB.get_service_records_by_provider()
+            consultations = 0
+            total_fee = 0
+            for serv in service_list:
+                serv.displayInfo()
+                consultations += 1
+                total_fee = total_fee + serv.fee
+            print("")
+            print("Total consulations:" + consultations)
+            print("Total fee:" + total_fee)
+        sys.stdout = original_std
+        f.close()
 
 
     #Generates all required weekly reports
