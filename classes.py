@@ -5,11 +5,8 @@ import re               # Regex (idx might come in handy, it's good to have too 
 import logging          # Nice interface for logging, just captures timestamp and formats nice
 from dataclasses import dataclass, field # Class helpers, py 3.8+ features that make classes much shorter to write
 from typing import *    # Type hinting
-<<<<<<< HEAD
-from database import DatabaseManager
+from database import *
 from datetime import datetime
-=======
->>>>>>> ccb3743579e6c5a72cd29cc732f4962826759685
 
 class Status(Enum):
     VALID = 1
@@ -29,9 +26,6 @@ class Member:
         self._zipCode = zipCode
         self._status = status
 
-<<<<<<< HEAD
-    # do we need this and the validateMember func in ChocAnSystem? - Gil
-=======
     @classmethod
     def prompt_member_constructor(self):
         # Create a new member by prompting for each field
@@ -82,7 +76,6 @@ class Member:
             status=Status.VALID
         )
 
->>>>>>> ccb3743579e6c5a72cd29cc732f4962826759685
     def validate(self):
         pass
     
@@ -228,17 +221,14 @@ class ChocAnSystem:
         #list of service objects
         #self._services = None
         #list of service Record objects
-<<<<<<< HEAD
         #self._serviceRecords = None
         self._DB = DatabaseManager()
-=======
         self._serviceRecords = None
 
         #import Database manager locally to not get
         #circular depencies
         from database import DatabaseManager
         self._DB = DatabaseManager("chocoDB")
->>>>>>> ccb3743579e6c5a72cd29cc732f4962826759685
         pass
 
     # print validated if member id is found
