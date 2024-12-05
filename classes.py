@@ -507,27 +507,57 @@ class ChocAnSystem:
     #retrieves the list of services for provider
     def getProviderDirectory(self):
         pass
-
-class ReportGenerator:
-    def __init__(self) -> None:
-        pass
-
+    
     #creates a report for a specific member
-    def generateMemberReport(self):
-        pass
+    def generateMemberReport(self, member_number):
+        member = self._DB.get_member(member_number)
+
+        file = "member_" + member_number + "_report.txt"
+        with open(file, "w") as f:
+            original_std = sys.stdout
+            sys.stdout = f
+
+            print(member.__repr__)
+            print("Services:")
+            service_list = self._DB.get_service_records_by_member()
+            for serv in service_list:
+                serv.displayInfo()
+        sys.stdout = original_std
+        f.close()
+
+
 
     #creates a report for a specific provider
-    def generateProviderReport(self):
-        pass
+    def generateProviderReport(self, provider_number):
+        provider = self._DB.get_provider(provider_number)
+        file = "provider_" + member_number + "_report.txt"
+        with open(file, "w") as f:
+            original_std = sys.stdout
+            sys.stdout = f
+
+            print(provider.__repr__)
+            print("Services:")
+            service_list = self._DB.get_service_records_by_provider()
+            consultations = 0
+            total_fee = 0
+            for serv in service_list:
+                serv.displayInfo()
+                consultations += 1
+                total_fee = total_fee + serv.fee
+            print("")
+            print("Total consulations:" + consultations)
+            print("Total fee:" + total_fee)
+        sys.stdout = original_std
+        f.close()
+
 
     #Generates all required weekly reports
     def generateWeeklyReports(self):
-        pass
-
-    #generates eft data for provider payments
-    def generateEFTData(self):
-        pass
-
-    #creates the provider directory file
-    def generateProviderDirectory(self):
-        pass
+        print("*** Weekly Reports:")
+        print("** Provider Reports:")
+        for prov in self._providers:
+            self.generateProviderReport(prov._providerNumber)
+        print("")
+        print("Member Reports:")
+        for mem in self._members:
+            self.generateMemberReport(mem._memberNumber)
