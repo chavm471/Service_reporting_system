@@ -68,10 +68,18 @@ class Menu:
             option = self.get_option(0, 5)
 
             if option == 1:
-                pass
+                member_number = input("Enter member number: ")
+                if self._chocsystem.validateMember(member_number):
+                    print("Member is valid")
+                else:
+                    print("Member is invalid")
             if option == 2:
-                pass
+                try:
+                    self._chocsystem.addServiceRecord()
+                except Exception as e:
+                    print(f"Error logging service: {e}")
             if option == 3:
+                self._chocsystem.getProviderDirectory()
                 pass
             if option == 4:
                 pass

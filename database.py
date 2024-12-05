@@ -97,6 +97,7 @@ class DatabaseManager:
         self.create_member_table()
         self.create_services_table()
         self.create_service_records_table()
+        
 
     def check_provider(self, provider: Provider):
         if len(provider._firstname) > 25:
@@ -308,6 +309,11 @@ class DatabaseManager:
             serviceName=row[1],
             fee=row[2]
         )
+
+    def get_provider_directory(self) -> list[Provider]:
+        self.cursor.execute("SELECT * FROM providers")
+        rows = self.cursor.fetchall()
+        return [Provider(*row) for row in rows]
     
     def get_service_records_by_provider(self, provider_number: str) -> list[ServiceRecord]:
         """

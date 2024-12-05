@@ -5,7 +5,6 @@ import re               # Regex (idx might come in handy, it's good to have too 
 import logging          # Nice interface for logging, just captures timestamp and formats nice
 from dataclasses import dataclass, field # Class helpers, py 3.8+ features that make classes much shorter to write
 from typing import *    # Type hinting
-from database import *
 from datetime import datetime
 
 class Status(Enum):
@@ -222,20 +221,25 @@ class ChocAnSystem:
         #self._services = None
         #list of service Record objects
         #self._serviceRecords = None
-        self._DB = DatabaseManager()
+        from database import DatabaseManager
+        self._DB = DatabaseManager("chocoDB")
+        #self._DB = DatabaseManager()
         self._serviceRecords = None
 
         #import Database manager locally to not get
         #circular depencies
-        from database import DatabaseManager
-        self._DB = DatabaseManager("chocoDB")
         pass
 
     # print validated if member id is found
     # print Invalid if member id is not found or suspended
     # return valid id or 0 if invalid
-    def validateMember(self):
-        pass
+    def validateMember(self, member_number: str) -> bool:
+        try:
+            self._DB.get_member(member_number)
+        except sqlite3.Error as e:
+            print(f"Error validating member: {e}")
+            return False
+        return True
 
     def validateProvider(self):
         pass
@@ -331,29 +335,31 @@ class ChocAnSystem:
 
     #adds new provider
     def addProvider(self):
+        provider_number = input("Enter provider number (9 digits): ")
+        while not re.match(r"^\d{9}$", provider_number):
+            print("Invalid provider number. Must be exactly 9 digits")
+            provider_number = input("Enter provider number (9 digits): ")
         
-        #get provider info
-        f_name = input("Enter the first name of the provider")
+        f_name = input("Enter the first name of the provider: ")
         while not re.match(r"^[a-zA-Z]+$",f_name):
-            print("Invalid first name. Only letter are allowed.")
-            f_name = input("Enter the first name of the provider")
-            
-        l_name = input("Enter the last name of the provider")
-        while not re.match(r"^[a-zA-Z]+$",f_name):
-            print("Invalid first name. Only letter are allowed.")
-            l_name = input("Enter the last name of the provider")
+            print("Invalid first name. Only letters are allowed.")
+        
+        l_name = input("Enter the last name of the provider: ")
+        while not re.match(r"^[a-zA-Z]+$",l_name):  
+            print("Invalid last name. Only letters are allowed.")
+            l_name = input("Enter the last name of the provider: ")
 
-        p_str_addr = input("Enter the street address of provider")
+        p_str_addr = input("Enter the street address of provider:")
         while not re.match(r"^[a-zA-Z0-9\s,.#-]+$", p_str_addr):
             print("Invalid address. Only letters, numbers, and common address symbols (.,#-) are allowed.")
             p_str_addr = input("Enter the street address of provider: ")
 
-        city = input("Enter the city of provider")
+        city = input("Enter the city of provider:")
         while not re.match(r"^[a-zA-Z\s]+$", city):
             print("Invalid city. Only letters and spaces are allowed.")
             city = input("Enter the city of provider: ")
 
-        st = input("Enter the state of the provider")
+        st = input("Enter the state of the provider (2 letters):")
         while not re.match(r"^[A-Z]{2}$", st):
             print("Invalid state. Enter exactly two uppercase letters (e.g., 'CA').")
             st = input("Enter the state of the provider (e.g., 'CA'): ")
@@ -365,7 +371,15 @@ class ChocAnSystem:
             zip = input("Enter the zipcode of provider: ")
 
         #make a new Provider object
-        new_provider = Provider(f_name,l_name,p_str_addr,city,st,zip)
+        new_provider = Provider(
+            providerNumber=provider_number,
+            firstName=f_name,
+            lastName=l_name,
+            streetAddress=p_str_addr,
+            city=city,
+            state=st,
+            zipCode=zip
+        )
         self._DB.insert_provider(new_provider)
 
     #updates provider information
@@ -420,23 +434,6 @@ class ChocAnSystem:
         prov_num = input("Enter the provider's ID who you want to delete.")
         self._DB.delete_provider(prov_num)
         pass
-
-    def addService(self):
-        self = Service()
-        #service_code VARCHAR(6) PRIMARY KEY
-        self._serviceCode = input("Six Digit Service Code:")
-        while self._serviceCode is None or len(self._serviceCode) < 6:
-            self._serviceCode = input("Please Enter Valid Six Digit Service Code: ")
-        #service_name VARCHAR(20) 
-        self._serviceName = input("Service Name:")
-        while self._serviceName is None or len(self._serviceName) < 20:
-            self._serviceName = input("Please Enter a Service Name less than Twenty Characters: ")
-        #fee DECIMAL(8,2)
-        self._fee = input("Service Fee:")
-        while self._fee is None or len(self._fee) < 8:
-            self._fee = input("Please Enter a Fee less than Eight Digits: ")
-        self._DB.add_service(self)
-        pass
     
     def deleteService(self):
         serv_num = input("Enter the six digit service code you wish to delete: ")
@@ -454,10 +451,10 @@ class ChocAnSystem:
             self._serviceCode = input("Please Enter Valid Six Digit Service Code: ")
         #service_name VARCHAR(20) 
         self._serviceName = input("Service Name:")
-        while self._serviceName is None or len(self._serviceName) < 20:
+        while self._serviceName is None or len(self._serviceName) > 20:
             self._serviceName = input("Please Enter a Service Name less than Twenty Characters: ")
         #fee DECIMAL(8,2)
-        self._fee = input("Service Name:")
+        self._fee = input("Service fee:")
         while self._fee is None or len(self._fee) > 8:
             self._fee = input("Please Enter a Fee less than Eight Digits: ")
         pass
@@ -506,6 +503,9 @@ class ChocAnSystem:
 
     #retrieves the list of services for provider
     def getProviderDirectory(self):
+        provider_list = self._DB.get_provider_directory()
+        for prov in provider_list:
+            print(prov.__repr__)
         pass
     
     #creates a report for a specific member
