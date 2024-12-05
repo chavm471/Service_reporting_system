@@ -474,19 +474,36 @@ class ChocAnSystem:
     #creates a report for a specific member
     def generateMemberReport(self, member_number):
         member = self._DB.get_member(member_number)
-        print("Report for member" + member_number, ":")
-        print("Name: " + member._lastName, "," + member._firstName)
-        print("Address:" + member._streetAddress + member._city, "," + member._state + member._zipCode)
-        print("Status:" + member._status)
+        print("*" + member.__repr__)
+        print("Services:")
+        service_list = self._DB.get_service_records_by_member()
+        for serv in service_list:
+            serv.displayInfo()
+
 
     #creates a report for a specific provider
     def generateProviderReport(self, provider_number):
         provider = self._DB.get_provider(provider_number)
-        print("Report for provider" + provider_number, ":")
-        print("Name: " + provider._lastName, "," + provider._firstName)
-        print("Address:" + provider._streetAddress + provider._city, "," + provider._state + provider._zipCode)
-        print("Status:" + provider._status)
+        print("*" + provider.__repr__)
+        print("Services:")
+        service_list = self._DB.get_service_records_by_provider()
+        consultations = 0
+        total_fee = 0
+        for serv in service_list:
+            serv.displayInfo()
+            consultations += 1
+            total_fee = total_fee + serv.fee
+        print("Total consulations:" + consultations)
+        print("Total fee:" + total_fee)
+
 
     #Generates all required weekly reports
     def generateWeeklyReports(self):
-        pass
+        print("*** Weekly Reports:")
+        print("** Provider Reports:")
+        for prov in self._providers:
+            self.generateProviderReport(prov._providerNumber)
+        print("")
+        print("Member Reports:")
+        for mem in self._members:
+            self.generateMemberReport(mem._memberNumber)
