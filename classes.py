@@ -437,7 +437,7 @@ class ChocAnSystem:
     
     def deleteService(self):
         serv_num = input("Enter the six digit service code you wish to delete: ")
-        while serv_num is None or len(serv_num) < 6:
+        while serv_num is None or len(serv_num) < 6 or len(serv_num) > 6:
             serv_num = input("Enter the six digit service code you wish to delete: ")
         self._DB.delete_service(serv_num)
 
@@ -447,7 +447,7 @@ class ChocAnSystem:
         self = Service()
         #service_code VARCHAR(6) PRIMARY KEY
         self._serviceCode = input("Six Digit Service Code:")
-        while self._serviceCode is None or len(self._serviceCode) < 6:
+        while self._serviceCode is None or len(self._serviceCode) < 6 or len(self._serviceCode) > 6:
             self._serviceCode = input("Please Enter Valid Six Digit Service Code: ")
         #service_name VARCHAR(20) 
         self._serviceName = input("Service Name:")
@@ -457,12 +457,12 @@ class ChocAnSystem:
         self._fee = input("Service fee:")
         while self._fee is None or len(self._fee) > 8:
             self._fee = input("Please Enter a Fee less than Eight Digits: ")
-        pass
+        self._DB.insert_service(self)
     
     #deletes a service
     def deleteService(self):
         serv_num = input("Enter the six digit service code you wish to delete: ")
-        while serv_num is None or len(serv_num) < 6:
+        while serv_num is None or len(serv_num) < 6 or len(serv_num) > 6:
             serv_num = input("Enter the six digit service code you wish to delete: ")
         self._DB.delete_service(serv_num)
 
@@ -492,7 +492,8 @@ class ChocAnSystem:
 
     def deleteServiceRecord(self):
         rec_num = input("Enter the Service Record ID of the record to delete: ")
-        while rec_num is None:
+        while rec_num is None or len(rec_num) > 4096:
+            print("Invalid Service Record ID")
             rec_num = input("Enter the Service Record ID of the record to delete: ")
         self._DB.delete_service_record(rec_num)
              
