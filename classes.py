@@ -17,7 +17,7 @@ class Status(Enum):
 class Member:
     def __init__(self, memberNumber: str = None, firstName: str = None, lastName: str = None, 
                  streetAddress: str = None, city: str = None, state: str = None, 
-                 zipCode: str = None, status: Status = Status.INVALID) -> None:
+                 zipCode: str = None, status: Status = Status.VALID) -> None:
         self._memberNumber = memberNumber
         self._firstName = firstName
         self._lastName = lastName
@@ -489,24 +489,36 @@ class ChocAnSystem:
             print(f"Error deleting service: {e}")
 
     def addServiceRecord(self):
-        #primary key is an autoincr int
-        #date_received DATETIME NOT NULL
-        # service_date DATE NOT NULL
-        # provider_number VARCHAR(9) NOT NULL
-        # member_number VARCHAR(9) NOT NULL
-        # service_code VARCHAR(6) NOT NULL
-        # comments VARCHAR(100)
-        # fee DECIMAL(8,2) NOT NULL
+
         rec = ServiceRecord()
-        date_input = input("Date Record Recieved (YYYY-MM-DD): ")
-        rec._dateReceived = datetime.strptime(date_input, "%Y-%m-%d")
-        date_input = input("Service Date (YYYY-MM-DD): ")
-        rec._serviceDate = datetime.strptime(date_input, "%Y-%m-%d")
-        #rec._provider = input("Nine Digit Provider Number: ")
-        #rec._member = input("Nine Digit Member Number: ")
-        #rec._service = input("Six Digit Service Number: ")
-        #rec._comments = input("Comments for Service Record: ")
-        #rec._fee = input("Service Fee: ")
+        date_input = input("Date Record Received (YYYY MM DD): ")
+        while not datetime.strptime(date_input, "%Y %m %d"):
+            date_input = input("Enter in this format (YYYY MM DD): ")
+        rec._dateReceived = datetime.strptime(date_input, "%Y %m %d")
+
+        date_input = input("Service Date (YYYY MM DD): ")
+        while not datetime.strptime(date_input, "%Y %m %d"):
+            date_input = input("Enter in this format (YYYY MM DD): ")
+        rec._serviceDate = datetime.strptime(date_input, "%Y %m %d")
+
+        rec._provider = input("Provider number: ")
+        while rec._provider is None or len(rec._provider) < 9 or len(rec._provider) > 9:
+            rec._provider = input("Please Enter Valid Nine Digit Provider Number: ")
+
+        rec._member = input("Member number: ")
+        while rec._member is None or len(rec._member) < 9 or len(rec._member) > 9:
+            rec._member = input("Please Enter Valid Nine Digit Member Number: ")
+
+        rec._service = input("Service number: ")
+        while rec._service is None or len(rec._service) < 6 or len(rec._service) > 6:
+            rec._service = input("Please Enter Valid Nine Digit Member Number: ")
+
+        rec._comments = input("Comments: ") # comments are optional
+        
+        rec._fee = input("Service fee: ")
+        while rec._fee is None or len(rec._fee) > 8:
+            rec._fee = input("Input a fee under 8 digits: ")
+        
         try:
             self._DB.insert_service_record(rec)
         except Exception as e:
