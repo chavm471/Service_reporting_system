@@ -65,8 +65,9 @@ class Menu:
             print("3: Get provider directory\n")
             print("4: Add service provided\n")
             print("5: Remove service provided\n")
+            print("6: Get Service Directory\n")
             print("0: Return to main menu\n\n")
-            option = self.get_option(0, 5)
+            option = self.get_option(0, 6)
 
             if option == 1:
                 try:
@@ -100,7 +101,11 @@ class Menu:
                 except Exception as e:
                     print(f"Error deleting service: {e}")
                 pass
-
+            if option == 6:
+                try:
+                    self._chocsystem.getServiceDirectory()
+                except Exception as e:
+                    print(f"Error getting service directory: {e}")
         return
         
 
@@ -122,22 +127,49 @@ class Menu:
             option = self.get_option(0, 9)
 
             if option == 1: 
-                self._chocsystem.addMember()
+                try:
+                    self._chocsystem.addMember()
+                except Exception as e:
+                    print(f"Error adding member: {e}")
             if option == 2:
-                self._chocsystem.deleteMember()
+                try:
+                    self._chocsystem.deleteMember()
+                except Exception as e:
+                    print(f"Error deleting member: {e}")
             if option == 3:
-                self._chocsystem.updateMember()
+                try:
+                    self._chocsystem.updateMember()
+                except Exception as e:
+                    print(f"Error updating member: {e}")
             if option == 4:
-                self._chocsystem.addProvider()
+                try:
+                    self._chocsystem.addProvider()
+                except Exception as e:
+                    print(f"Error adding provider: {e}")
             if option == 5:
-                self._chocsystem.deleteProvider()
+                try:
+                    self._chocsystem.deleteProvider()
+                except Exception as e:
+                    print(f"Error deleting provider: {e}")
             if option == 6:
-                self._chocsystem.updateProvider()
+                try:
+                    self._chocsystem.updateProvider()
+                except Exception as e:
+                    print(f"Error updating provider: {e}")
             if option == 7:
-                self._chocsystem.addService()
+                try:
+                    self._chocsystem.addService()
+                except Exception as e:
+                    print(f"Error adding service: {e}")
             if option == 8:
-                self._chocsystem.deleteService()
+                try:
+                    self._chocsystem.deleteService()
+                except Exception as e:
+                    print(f"Error deleting service: {e}")
             if option == 9:
-                self._chocsystem.generateWeeklyReports()
+                try:
+                    self._chocsystem.generateWeeklyReports()
+                except Exception as e:
+                    print(f"Error generating weekly reports: {e}")
 
         return
