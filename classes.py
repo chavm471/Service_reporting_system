@@ -643,7 +643,12 @@ class ChocAnSystem:
             print("Services:")
             services = self._DB.get_service_records_by_member(member_number)
             for s in services:
-                s.displayInfo()
+                print("Record ID:",s._recordID)
+                print("Date Received:",s._dateReceived)
+                print("Provider:",s._provider)
+                print("Member:",s._member)
+                print("Comments:",s._comments)
+                print("Fee:",s._fee)
         sys.stdout = original
 
     #creates a report for a specific provider
@@ -656,11 +661,16 @@ class ChocAnSystem:
             print(repr(provider))
             print("Services:")
             try:
-                service_list = self._DB.get_service_records_by_provider(provider._providerNumber)
+                service_list = self._DB.get_service_records_by_provider(provider_number)
                 consultations = 0
                 total_fee = 0
                 for serv in service_list:
-                    serv.displayInfo()
+                    print("Record ID:",serv._recordID)
+                    print("Date Received:",serv._dateReceived)
+                    print("Provider:",serv._provider)
+                    print("Member:",serv._member)
+                    print("Comments:",serv._comments)
+                    print("Fee:",serv._fee)
                     consultations += 1
                     total_fee += serv.fee
             except Exception as e:
