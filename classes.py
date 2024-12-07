@@ -541,7 +541,7 @@ class ChocAnSystem:
     def getProviderDirectory(self):
         provider_list = self._DB.get_provider_directory()
         for prov in provider_list:
-            print(prov.__repr__)
+            print(prov)
         pass
     
     def generateMemberReport(self, member_number):
