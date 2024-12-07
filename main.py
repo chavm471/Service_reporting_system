@@ -9,11 +9,12 @@ from typing import *    # Type hinting
 from menu import *
 from database import *
 
-def main():
-    prog = Menu()
+def main():    
+    database = DatabaseManager("chocoDB")
+    prog = Menu(db=database)
     prog.startup()
     prog.main_menu()
-    database = DatabaseManager("chocoDB")
+
     database.create_tables()
 
  #  menu_inst = MenuController()
