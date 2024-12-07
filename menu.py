@@ -64,7 +64,7 @@ class Menu:
             print("3: Get provider directory\n")
             print("4: Add service provided\n")
             print("5: Remove service provided\n")
-            print("0: Close the terminal\n\n")
+            print("0: Return to main menu\n\n")
             option = self.get_option(0, 5)
 
             if option == 1:
@@ -103,7 +103,7 @@ class Menu:
             print("7: Add service\n")
             print("8: Remove service\n")
             print("9: Get weekly reports\n")
-            print("0: Close the terminal\n\n")
+            print("0: Return to main menu\n\n")
             option = self.get_option(0, 9)
 
             if option == 1: 
