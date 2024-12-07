@@ -564,7 +564,7 @@ class ChocAnSystem:
                 try:
                     fee = float(input("Service fee: "))
                     if fee >= 0 and len(str(int(fee))) <= 8:
-                        rec._fee = fee
+                        rec._fee = float(fee)
                         break
                     print("Fee must be positive and have at most 8 digits")
                 except ValueError:
@@ -724,7 +724,7 @@ class ChocAnSystem:
                     print("Comments:",serv._comments)
                     print("Fee:",serv._fee)
                     consultations += 1
-                    total_fee += serv.fee
+                    total_fee += serv._fee
             except Exception as e:
                 print(f"error generating provider report: {e}")
             print("")
