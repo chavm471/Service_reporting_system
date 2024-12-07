@@ -567,7 +567,7 @@ class ChocAnSystem:
             print(repr(provider))
             print("Services:")
             try:
-                service_list = self._DB.get_service_records_by_provider()
+                service_list = self._DB.get_service_records_by_provider(provider._providerNumber)
                 consultations = 0
                 total_fee = 0
                 for serv in service_list:
