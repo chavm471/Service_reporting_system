@@ -1,4 +1,4 @@
-from classes import Provider, Member, Service, ServiceRecord, Status
+from classes import *
 import sqlite3
 from datetime import datetime
 
@@ -287,13 +287,6 @@ class DatabaseManager:
         row = self.cursor.fetchone()
         if row is None:
             raise sqlite3.Error(f"No member found with number {member_number}")
-        
-        # Explicitly convert the status string to Status enum
-        try:
-            member_status = Status[row[7]]  # This should convert 'VALID' to Status.VALID
-        except KeyError:
-            raise ValueError(f"Invalid status value in database: {row[7]}")
-            
         return Member(
             memberNumber=row[0],
             firstName=row[1],
@@ -302,8 +295,9 @@ class DatabaseManager:
             city=row[4],
             state=row[5],
             zipCode=row[6],
-            status=member_status
+            status=Status[row[7]]  # This will convert 'VALID' to Status.VALID
         )
+    
 
     def get_service(self, service_code: str) -> Service:
         self.cursor.execute("SELECT * FROM services WHERE service_code = ?", (service_code,))
