@@ -10,7 +10,7 @@ class Menu:
         print(" ░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░ ░▒▓██████▓▒░ ░▒▓██████▓▒░░▒▓███████▓▒░ \n")
         print("░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░\n") 
         print("░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░\n") 
-        print("░▒▓█▓▒░      ░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓████████▓▒░▒▓█▓▒░░▒▓█��▒░\n") 
+        print("░▒▓█▓▒░      ░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░\n") 
         print("░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░\n") 
         print("░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░\n") 
         print(" ░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░ ░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░\n\n")
@@ -55,6 +55,7 @@ class Menu:
 
 
     def provider_options(self) -> None:
+        # print prover menu and call provider methods
         option: int = 999
         
         while option != 0:
@@ -74,43 +75,33 @@ class Menu:
                     print("Member is invalid")
             if option == 2:
                 try:
-                    # Get provider number
-                    provider_number = input("Enter provider number: ")
-                    provider = self._chocsystem._DB.get_provider(provider_number)
-                    if provider:
-                        # Create and record service
-                        service_record = ServiceRecord()
-                        service_record.createRecord()
-                        provider.recordService(service_record)
-                        print("Service recorded successfully")
-                    else:
-                        print("Provider not found")
+                    self._chocsystem.addServiceRecord()
                 except Exception as e:
                     print(f"Error logging service: {e}")
             if option == 3:
                 try:
-                    provider_number = input("Enter provider number: ")
-                    provider = self._chocsystem._DB.get_provider(provider_number)
-                    if provider:
-                        provider.requestProviderDirectory()
-                    else:
-                        print("Provider not found")
+                    self._chocsystem.getProviderDirectory()
                 except Exception as e:
                     print(f"Error getting provider directory: {e}")
+                pass
             if option == 4:
                 try:
-                    service = Service()
-                    # Service details will be prompted within addService
                     self._chocsystem.addService()
                 except Exception as e:
                     print(f"Error adding service: {e}")
+                pass
             if option == 5:
                 try:
                     self._chocsystem.deleteService()
                 except Exception as e:
                     print(f"Error deleting service: {e}")
+                pass
+
+        return
+        
 
     def manager_options(self) -> None:
+        # print manager menu and call provider options
         option: int = 999
         
         while option != 0:
@@ -122,34 +113,27 @@ class Menu:
             print("6: Update provider\n")
             print("7: Add service\n")
             print("8: Remove service\n")
-            print("9: Generate weekly reports\n")
+            print("9: Get weekly reports\n")
             print("0: Return to main menu\n\n")
             option = self.get_option(0, 9)
 
-            try:
-                if option == 1: 
-                    # Use the prompt_member_constructor for adding new members
-                    new_member = Member.prompt_member_constructor()
-                    self._chocsystem._DB.insert_member(new_member)
-                    print("Member added successfully")
-                elif option == 2:
-                    self._chocsystem.deleteMember()
-                elif option == 3:
-                    self._chocsystem.updateMember()
-                elif option == 4:
-                    # Use the prompt_provider_constructor for adding new providers
-                    new_provider = Provider.prompt_provider_constructor()
-                    self._chocsystem._DB.insert_provider(new_provider)
-                    print("Provider added successfully")
-                elif option == 5:
-                    self._chocsystem.deleteProvider()
-                elif option == 6:
-                    self._chocsystem.updateProvider()
-                elif option == 7:
-                    self._chocsystem.addService()
-                elif option == 8:
-                    self._chocsystem.deleteService()
-                elif option == 9:
-                    self._chocsystem.generateWeeklyReports()
-            except Exception as e:
-                print(f"Error performing operation: {e}")
+            if option == 1: 
+                self._chocsystem.addMember()
+            if option == 2:
+                self._chocsystem.deleteMember()
+            if option == 3:
+                self._chocsystem.updateMember()
+            if option == 4:
+                self._chocsystem.addProvider()
+            if option == 5:
+                self._chocsystem.deleteProvider()
+            if option == 6:
+                self._chocsystem.updateProvider()
+            if option == 7:
+                self._chocsystem.addService()
+            if option == 8:
+                self._chocsystem.deleteService()
+            if option == 9:
+                pass
+
+        return
