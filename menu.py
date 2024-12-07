@@ -79,11 +79,22 @@ class Menu:
                 except Exception as e:
                     print(f"Error logging service: {e}")
             if option == 3:
-                self._chocsystem.getProviderDirectory()
+                try:
+                    self._chocsystem.getProviderDirectory()
+                except Exception as e:
+                    print(f"Error getting provider directory: {e}")
                 pass
             if option == 4:
+                try:
+                    self._chocsystem.addService()
+                except Exception as e:
+                    print(f"Error adding service: {e}")
                 pass
             if option == 5:
+                try:
+                    self._chocsystem.deleteService()
+                except Exception as e:
+                    print(f"Error deleting service: {e}")
                 pass
 
         return
