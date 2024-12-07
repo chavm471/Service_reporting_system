@@ -394,7 +394,7 @@ class ChocAnSystem:
         selection = 0
 
         prov_num = input("Enter the provider's ID who's info you want to update.")
-        temp_prov = self._DB.get_member(prov_num)
+        temp_prov = self._DB.get_provider(prov_num)
         print("Select Provider Field to Update\n")
         print("1. First Name")
         print("2. Last Name")

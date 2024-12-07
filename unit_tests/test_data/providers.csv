@@ -1,0 +1,6 @@
+provider_number,first_name,last_name,street_address,city,state,zipcode
+123456789,John,Smith,123 Main St,Portland,OR,97201
+234567890,Sarah,Johnson,456 Oak Ave,Seattle,WA,98101
+345678901,Michael,Williams,789 Pine St,San Francisco,CA,94101
+456789012,Emily,Brown,321 Maple Dr,Los Angeles,CA,90001
+567890123,David,Jones,654 Cedar Ln,Chicago,IL,60601 

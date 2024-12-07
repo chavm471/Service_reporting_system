@@ -1,0 +1,6 @@
+date_received,service_date,provider_number,member_number,service_code,comments,fee
+2024-03-15 14:30:00,2024-03-15,123456789,987654321,598470,Regular cleaning completed,75.00
+2024-03-14 10:15:00,2024-03-14,234567890,876543210,598471,Filled cavity in upper right molar,120.50
+2024-03-13 11:45:00,2024-03-13,345678901,987654321,598474,Full mouth X-rays taken,95.00
+2024-03-12 09:30:00,2024-03-12,456789012,654321098,598472,Emergency root canal procedure,800.00
+2024-03-11 13:20:00,2024-03-11,567890123,543210987,598473,Whitening procedure completed,250.00 
