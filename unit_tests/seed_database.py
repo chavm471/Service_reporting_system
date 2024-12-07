@@ -20,7 +20,7 @@ def load_csv(filename):
         reader = csv.DictReader(file)
         return list(reader)
 
-def seed_database(db_path='chocan.db'):
+def seed_database(db_path='chocoDB'):
     """Seed the database with test data"""
     # Create new database
     if os.path.exists(db_path):

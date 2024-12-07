@@ -325,7 +325,8 @@ class DatabaseManager:
         ) for row in rows]
 
     def get_provider_directory(self) -> list[Provider]:
-        self.cursor.execute("SELECT * FROM providers")
+        self.cursor.execute("""SELECT provider_number, first_name, last_name, street_address, city, state, zipcode
+        FROM providers""")
         rows = self.cursor.fetchall()
         return [Provider(*row) for row in rows]
     
