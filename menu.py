@@ -64,7 +64,7 @@ class Menu:
             print("3: Get provider directory\n")
             print("4: Add service provided\n")
             print("5: Remove service provided\n")
-            print("0: Close the terminal\n\n")
+            print("0: Return to main menu\n\n")
             option = self.get_option(0, 5)
 
             if option == 1:
@@ -79,11 +79,22 @@ class Menu:
                 except Exception as e:
                     print(f"Error logging service: {e}")
             if option == 3:
-                self._chocsystem.getProviderDirectory()
+                try:
+                    self._chocsystem.getProviderDirectory()
+                except Exception as e:
+                    print(f"Error getting provider directory: {e}")
                 pass
             if option == 4:
+                try:
+                    self._chocsystem.addService()
+                except Exception as e:
+                    print(f"Error adding service: {e}")
                 pass
             if option == 5:
+                try:
+                    self._chocsystem.deleteService()
+                except Exception as e:
+                    print(f"Error deleting service: {e}")
                 pass
 
         return
@@ -103,7 +114,7 @@ class Menu:
             print("7: Add service\n")
             print("8: Remove service\n")
             print("9: Get weekly reports\n")
-            print("0: Close the terminal\n\n")
+            print("0: Return to main menu\n\n")
             option = self.get_option(0, 9)
 
             if option == 1: 
