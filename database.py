@@ -309,6 +309,20 @@ class DatabaseManager:
             serviceName=row[1],
             fee=row[2]
         )
+    
+    def get_member_directory(self) -> list[Member]:
+        self.cursor.execute("SELECT * FROM members")
+        rows = self.cursor.fetchall()
+        return [Member(
+            memberNumber=row[0],
+            firstName=row[1],
+            lastName=row[2],
+            streetAddress=row[3],
+            city=row[4],
+            state=row[5],
+            zipCode=row[6],
+            status=Status[row[7]]
+        ) for row in rows]
 
     def get_provider_directory(self) -> list[Provider]:
         self.cursor.execute("SELECT * FROM providers")

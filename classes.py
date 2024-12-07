@@ -208,7 +208,6 @@ class ServiceRecord:
         print("Member:",self._member)
         print("Comments:",self._comments)
         print("Fee:",self._fee)
-        pass
 
 class ChocAnSystem:
     # do we need any of these class members????
@@ -228,7 +227,6 @@ class ChocAnSystem:
 
         #import Database manager locally to not get
         #circular depencies
-        pass
 
     # print validated if member id is found
     # print Invalid if member id is not found or suspended
@@ -334,7 +332,6 @@ class ChocAnSystem:
             self._DB.update_member(member)        
         except Exception as e:
             print(f"Error updating member: {e}")
-        pass
 
     def deleteMember(self):
         mem_num = input("Please Enter Member Number to Delete: ")
@@ -342,7 +339,6 @@ class ChocAnSystem:
             self._DB.delete_member(mem_num)
         except Exception as e:
             print(f"Error deleting member: {e}")
-        pass
 
     #adds new provider
     def addProvider(self):
@@ -444,7 +440,6 @@ class ChocAnSystem:
             self._DB.update_provider(temp_prov)        
         except Exception as e:
             print(f"Error updating provider: {e}")
-        pass
 
     #removes a provider
     def deleteProvider(self):
@@ -453,7 +448,6 @@ class ChocAnSystem:
             self._DB.delete_provider(prov_num)
         except Exception as e:
             print(f"Error deleting provider: {e}")
-        pass
     
     def deleteService(self):
         serv_num = input("Enter the six digit service code you wish to delete: ")
@@ -520,7 +514,69 @@ class ChocAnSystem:
             print(f"Error adding service record: {e}")
 
     def updateServiceRecord(self):
-        pass
+        try:
+            record_id = input("Enter the Service Record ID to update: ")
+            record = self._DB.get_service_record(record_id)
+            
+            if not record:
+                print("Service record not found.")
+                return
+            
+            print("\nSelect field to update:")
+            print("1. Service Date")
+            print("2. Provider Number")
+            print("3. Member Number")
+            print("4. Service Code")
+            print("5. Comments")
+            print("6. Fee")
+            
+            selection = input("Selection: ")
+            while not selection.isdigit() or int(selection) < 1 or int(selection) > 6:
+                selection = input("Please enter a valid selection (1-6): ")
+            
+            selection = int(selection)
+            
+            if selection == 1:
+                date_input = input("New Service Date (YYYY-MM-DD): ")
+                record._serviceDate = datetime.strptime(date_input, "%Y-%m-%d")
+            elif selection == 2:
+                provider_num = input("New Provider Number (9 digits): ")
+                while not re.match(r"^\d{9}$", provider_num):
+                    print("Invalid provider number. Must be exactly 9 digits.")
+                    provider_num = input("New Provider Number (9 digits): ")
+                record._provider = provider_num
+            elif selection == 3:
+                member_num = input("New Member Number (9 digits): ")
+                while not re.match(r"^\d{9}$", member_num):
+                    print("Invalid member number. Must be exactly 9 digits.")
+                    member_num = input("New Member Number (9 digits): ")
+                record._member = member_num
+            elif selection == 4:
+                service_code = input("New Service Code (6 digits): ")
+                while not re.match(r"^\d{6}$", service_code):
+                    print("Invalid service code. Must be exactly 6 digits.")
+                    service_code = input("New Service Code (6 digits): ")
+                record._service = service_code
+            elif selection == 5:
+                comments = input("New Comments (max 100 characters): ")
+                while len(comments) > 100:
+                    print("Comments too long. Maximum 100 characters.")
+                    comments = input("New Comments (max 100 characters): ")
+                record._comments = comments
+            elif selection == 6:
+                fee = input("New Fee (max 8 digits, 2 decimal places): ")
+                while not re.match(r"^\d{1,8}(\.\d{0,2})?$", fee):
+                    print("Invalid fee format.")
+                    fee = input("New Fee (max 8 digits, 2 decimal places): ")
+                record._fee = float(fee)
+                
+            self._DB.update_service_record(record)
+            print("Service record updated successfully.")
+            
+        except ValueError as e:
+            print(f"Invalid input format: {e}")
+        except Exception as e:
+            print(f"Error updating service record: {e}")
 
     def deleteServiceRecord(self):
         rec_num = input("Enter the Service Record ID of the record to delete: ")
@@ -535,14 +591,36 @@ class ChocAnSystem:
 
     #updates member statuses based on payment
     def processMembershipPayments(self):
-        pass
+        try:
+            # Get all members from database
+            members = self._DB.get_all_members()
+            
+            print("\nProcessing membership payments...")
+            for member in members:
+                # Simulate payment check - in a real system this would check against actual payment records
+                payment_status = input(f"\nHas member {member._memberNumber} ({member._firstName} {member._lastName}) paid? (y/n): ").lower()
+                
+                if payment_status == 'y':
+                    if member._status != Status.VALID:
+                        member._status = Status.VALID
+                        self._DB.update_member(member)
+                        print(f"Member {member._memberNumber} status updated to VALID")
+                else:
+                    if member._status != Status.SUSPENDED:
+                        member._status = Status.SUSPENDED
+                        self._DB.update_member(member)
+                        print(f"Member {member._memberNumber} status updated to SUSPENDED")
+            
+            print("\nMembership payment processing complete.")
+            
+        except Exception as e:
+            print(f"Error processing membership payments: {e}")
 
     #retrieves the list of services for provider
     def getProviderDirectory(self):
         provider_list = self._DB.get_provider_directory()
         for prov in provider_list:
             print(prov)
-        pass
     
     def generateMemberReport(self, member_number):
         member = self._DB.get_member(member_number)
