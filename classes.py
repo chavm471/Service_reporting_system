@@ -483,11 +483,14 @@ class ChocAnSystem:
     
     def getServiceDirectory(self):
         try:
-            for service in self._DB.get_service_directory():
+            services = self._DB.get_service_directory()
+            for service in services:
                 print(service)
+            return services
         except Exception as e:
             print(f"Error getting service directory: {e}")
-        
+            return None
+            
     
     #deletes a service
     def deleteService(self):
