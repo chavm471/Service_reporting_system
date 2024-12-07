@@ -210,23 +210,13 @@ class ServiceRecord:
         print("Fee:",self._fee)
 
 class ChocAnSystem:
-    # do we need any of these class members????
     def __init__(self) -> None:
-        #list of members objects
-        #self._members = None
-        #list of Provider objects
-        #self._providers = None
-        #list of service objects
-        #self._services = None
-        #list of service Record objects
-        #self._serviceRecords = None
         from database import DatabaseManager
         self._DB = DatabaseManager("chocoDB")
-        #self._DB = DatabaseManager()
-        self._serviceRecords = None
+        self._members = self._DB.get_member_directory()
+        self._providers = self._DB.get_provider_directory()
+        self._services = self._DB.get_service_directory()
 
-        #import Database manager locally to not get
-        #circular depencies
 
     # print validated if member id is found
     # print Invalid if member id is not found or suspended

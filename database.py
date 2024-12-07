@@ -680,3 +680,12 @@ class DatabaseManager:
     # Auto close the connection when this instance dies. 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.close()
+
+    def get_service_directory(self) -> list[Service]:
+        self.cursor.execute("SELECT * FROM services")
+        rows = self.cursor.fetchall()
+        return [Service(
+            serviceCode=row[0],
+            serviceName=row[1],
+            fee=row[2]
+        ) for row in rows]
