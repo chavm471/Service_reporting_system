@@ -76,11 +76,15 @@ class Member:
         )
 
     def validate(self):
-        pass
+        """Validates member status and returns True if VALID, False otherwise"""
+        return self._status == Status.VALID
     
     #updates the members status
-    def updateStatus(self,newStatus):
-        pass
+    def updateStatus(self, newStatus):
+        """Updates member status to the new status"""
+        if not isinstance(newStatus, Status):
+            raise ValueError("New status must be a Status enum value")
+        self._status = newStatus
     
     def __repr__(self) -> str:
         return f"Member Number: {self._memberNumber}\nFirst Name: {self._firstName}\nLast Name: {self._lastName}\nAddress: {self._streetAddress} {self._city} {self._state} {self._zipCode}\nMembership Status: {self._status}"
@@ -209,22 +213,38 @@ class Provider:
         )
 
     def validate(self):
+        if not re.match(r"^\d{9}$", self._providerNumber):
+            return False
+        
+        if not self._firstname or not self._lastname:
+            return False
+            
+        if not self._streetAddress or not self._city:
+            return False
+            
+        if not re.match(r"^[A-Z]{2}$", self._state):
+            return False
+            
+        if not re.match(r"^\d{5}$", self._zipCode):
+            return False
+            
+        return True
         pass
 
-    def recordService(serviceRecord):
-        #append service Recorded to serviceRecord
-        #print "service recorded successfully"
-        pass
+    def recordService(self, serviceRecord):
+        # Validate service record
+        if not serviceRecord:
+            return False
+            
+        # Add service record to provider's records
+        self._serviceRecords.append(serviceRecord)
+        return True
 
     def requestProviderDirectory(self):
         #serviceList = Query all entries in services table
         #return servicesList
         pass
     
-    def generateReport(self):
-        #reportData = Retrieve ServiceRecords where
-        #ProviderNumber == self._providernumber
-        pass
 
     def __repr__(self) -> str:
         return f"Provider Number: {self._providerNumber}\nName: {self._firstname} {self._lastname}\nAddress: {self._streetAddress} {self._city} {self._state} {self._zipCode}"
