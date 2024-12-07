@@ -4,6 +4,7 @@ import os               # File IO
 import re               # Regex (idx might come in handy, it's good to have too many then too little)
 import logging          # Nice interface for logging, just captures timestamp and formats nice
 import sqlite3
+import sys
 from dataclasses import dataclass, field # Class helpers, py 3.8+ features that make classes much shorter to write
 from typing import *    # Type hinting
 from datetime import datetime
@@ -341,6 +342,7 @@ class ChocAnSystem:
         f_name = input("Enter the first name of the provider: ")
         while not re.match(r"^[a-zA-Z]+$",f_name):
             print("Invalid first name. Only letters are allowed.")
+            f_name = input("Enter the first name of the provider: ")
         
         l_name = input("Enter the last name of the provider: ")
         while not re.match(r"^[a-zA-Z]+$",l_name):  
@@ -636,7 +638,7 @@ class ChocAnSystem:
             print(repr(provider))
             print("Services:")
             try:
-                service_list = self._DB.get_service_records_by_provider()
+                service_list = self._DB.get_service_records_by_provider(provider._providerNumber)
                 consultations = 0
                 total_fee = 0
                 for serv in service_list:
@@ -656,11 +658,13 @@ class ChocAnSystem:
         try:
             print("*** Weekly Reports:")
             print("** Provider Reports:")
-            for prov in self._providers:
+            p_list = self._DB.get_provider_directory()
+            for prov in p_list:
                 self.generateProviderReport(prov._providerNumber)
             print("")
-            print("Member Reports:")
-            for mem in self._members:
+            print("** Member Reports:")
+            m_list = self._DB.get_member_directory()
+            for mem in m_list:
                 self.generateMemberReport(mem._memberNumber)
         except Exception as e:
             print(f"Error generating weekly reports: {e}")

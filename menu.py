@@ -134,6 +134,6 @@ class Menu:
             if option == 8:
                 self._chocsystem.deleteService()
             if option == 9:
-                pass
+                self._chocsystem.generateWeeklyReports()
 
         return
