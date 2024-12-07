@@ -76,13 +76,6 @@ class Member:
             zipCode=zip_code,
             status=Status.VALID
         )
-
-    def validate(self):
-        pass
-    
-    # updates the members status
-    def updateStatus(self,newStatus):
-        pass
     
     def __repr__(self) -> str:
         return f"Member Number: {self._memberNumber}\nFirst Name: {self._firstName}\nLast Name: {self._lastName}\nAddress: {self._streetAddress} {self._city} {self._state} {self._zipCode}\nMembership Status: {self._status}"
@@ -152,24 +145,6 @@ class Provider:
             zipCode=zip_code
         )
 
-    def validate(self):
-        pass
-
-    def recordService(serviceRecord):
-        #append service Recorded to serviceRecord
-        #print "service recorded successfully"
-        pass
-
-    def requestProviderDirectory(self):
-        #serviceList = Query all entries in services table
-        #return servicesList
-        pass
-    
-    def generateReport(self):
-        #reportData = Retrieve ServiceRecords where
-        #ProviderNumber == self._providernumber
-        pass
-
     def __repr__(self) -> str:
         return f"Provider Number: {self._providerNumber}\nName: {self._firstname} {self._lastname}\nAddress: {self._streetAddress} {self._city} {self._state} {self._zipCode}"
 
@@ -194,14 +169,6 @@ class ServiceRecord:
         self._comments = comments
         self._fee = fee
 
-    # Do we actually need this function ?? - Gil
-    #initializes a new service record. 
-    def createRecord(self):
-        #recordId = GenerateUniqueID()
-        #dateReceived = date.today()
-        #save record to database
-        pass
-    
     #displays the service record details
     def displayInfo(self):
         print("Record ID:",self._recordID)
@@ -233,9 +200,6 @@ class ChocAnSystem:
         except sqlite3.Error as e:
             print(f"Error validating member: {e}")
             return False
-
-    def validateProvider(self):
-        pass
 
     def addMember(self):
         mem = Member()
@@ -396,21 +360,21 @@ class ChocAnSystem:
         #variables
         selection = 0
 
-        prov_num = input("Enter the provider's ID who's info you want to update.")
+        prov_num = input("Enter the provider's ID who's info you want to update: ")
         temp_prov = self._DB.get_provider(prov_num)
-        print("Select Provider Field to Update\n")
-        print("1. First Name")
-        print("2. Last Name")
-        print("3. Street Address")
-        print("4. City")
-        print("5. State")
-        print("6. Zip Code")
+        print("Select Provider Field to Update: \n")
+        print("1. First Name: ")
+        print("2. Last Name: ")
+        print("3. Street Address: ")
+        print("4. City: ")
+        print("5. State: ")
+        print("6. Zip Code: ")
         while selection < 1 or selection > 7:
             selection = input("Selection: ")
         if(selection == 1):
-            temp_prov._firstName = input("Updated First Name:")
+            temp_prov._firstName = input("Updated First Name: ")
             while temp_prov._firstName is None:
-                temp_prov._firstName = input("Please Enter Valid First Name:") 
+                temp_prov._firstName = input("Please Enter Valid First Name: ") 
         elif(selection == 2):
             temp_prov._lastName = input("Updated Last Name:")
             while temp_prov._lastName is None:
@@ -432,9 +396,9 @@ class ChocAnSystem:
             while temp_prov._zipCode is None or len(temp_prov._zipCode) < 5:
                 temp_prov._zipCode = input("Please Enter Valid Five Digit Zip Code: ")
         elif(selection == 7):
-            temp_prov._status = input("Updated Status:")
+            temp_prov._status = input("Updated Status: ")
             while temp_prov._status is None:
-                temp_prov._status = input("Please Enter Valid Status")
+                temp_prov._status = input("Please Enter Valid Status ")
         try:
             self._DB.update_provider(temp_prov)        
         except Exception as e:

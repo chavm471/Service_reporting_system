@@ -16,9 +16,6 @@ def main():
     database = DatabaseManager("chocoDB")
     database.create_tables()
 
- #  menu_inst = MenuController()
- #  menu_inst.startmenu()
-
     return 0
 
 if __name__ == "__main__":
