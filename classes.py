@@ -6,7 +6,7 @@ import logging          # Nice interface for logging, just captures timestamp an
 from dataclasses import dataclass, field # Class helpers, py 3.8+ features that make classes much shorter to write
 from typing import *    # Type hinting
 from datetime import datetime
-
+import sqlite3
 class Status(Enum):
     VALID = 1
     SUSPENDED = 2
@@ -223,11 +223,14 @@ class ChocAnSystem:
     # return valid id or 0 if invalid
     def validateMember(self, member_number: str) -> bool:
         try:
-            self._DB.get_member(member_number)
+            member = self._DB.get_member(member_number)
+            if member._status == Status.VALID:
+                return True
+            else:
+                return False
         except sqlite3.Error as e:
             print(f"Error validating member: {e}")
             return False
-        return True
 
     def validateProvider(self):
         pass

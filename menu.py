@@ -1,5 +1,6 @@
 from database import *
 from classes import *
+import sqlite3
 
 class Menu:
     def __init__ (self) -> None:
@@ -68,11 +69,14 @@ class Menu:
             option = self.get_option(0, 5)
 
             if option == 1:
-                member_number = input("Enter member number: ")
-                if self._chocsystem.validateMember(member_number):
-                    print("Member is valid")
-                else:
-                    print("Member is invalid")
+                try:
+                    member_number = input("Enter member number: ")
+                    if self._chocsystem.validateMember(member_number):
+                        print("Member is valid")
+                    else:
+                        print("Member is invalid")
+                except Exception as e:
+                    print(f"Error validating member: {e}")
             if option == 2:
                 try:
                     self._chocsystem.addServiceRecord()
