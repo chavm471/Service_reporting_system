@@ -246,44 +246,46 @@ class ChocAnSystem:
 
     def addMember(self):
         mem = Member()
-        #member_number VARCHAR(9) PRIMARY KEY,
-        mem._memberNumber = input("Nine Digit Member Number: ")
-        while mem._memberNumber is None or len(mem._memberNumber) < 9:
-            mem._memberNumber = input("Please Enter Valid Nine Digit Member Number: ")
 
-        #first_name VARCHAR(25) NOT NULL,
-        mem._firstName = input("First Name:")
-        while mem._firstName is None:
-            mem._firstName = input("Please Enter Valid First Name:")
+        # ensure member number is not None, is length 9, and numeric
+        mem._memberNumber = input("Nine digit member number: ").strip()
+        while not mem._memberNumber.isdigit() or len(mem._memberNumber) != 9:
+            mem._memberNumber = input("Please enter a valid nine digit member number: ").strip()
 
-        #last_name VARCHAR(25) NOT NULL,
-        mem._lastName = input("Last Name:")
-        while mem._lastName is None:
-            mem._lastName = input("Please Enter Valid Last Name:")
+        # ensure first name is not empty
+        mem._firstName = input("First name:").strip()
+        while not mem._firstName:
+            mem._firstName = input("Please enter valid first name:").strip()
 
-        #street_address VARCHAR(25),
-        mem._streetAddress = input("Street Address: ")
-        while mem._streetAddress is None:
-            mem._streetAddress = input("Please Enter Valid Street Address: ")
+        # ensure last name is not empty
+        mem._lastName = input("Last name:").strip()
+        while not mem._lastName:
+            mem._lastName = input("Please enter valid last name:").strip()
 
-        #city VARCHAR(14),
-        mem._city = input("City: ")
-        while mem._city is None:
-            mem._city = input("Please Enter Valid City: ")
-        #state VARCHAR(2),
-        mem._state = input("Two Letter State ID: ")
-        while mem._state is None or len(mem._city) < 2:
-            mem._city = input("Please Enter Valid Two Letter State ID: ")
-        #zipcode VARCHAR(5),
-        mem._zipCode = input("Five Digit Zipcode: ")
-        while mem._zipCode is None or len(mem._zipCode) < 5:
-            mem._zipCode = input("Please Enter Valid Five Digit Zip Code: ")
-        #status TEXT CHECK(status IN ('VALID', 'SUSPENDED', 'INVALID')) NOT NULL DEFAULT 'VALID'
+        # ensure street address is not empty
+        mem._streetAddress = input("Street address: ").strip()
+        while not mem._streetAddress:
+            mem._streetAddress = input("Please enter valid street address: ").strip()
+
+        # ensure city is not empty
+        mem._city = input("City: ").strip()
+        while not mem._city:
+            mem._city = input("Please enter valid city: ").strip()
+
+        # ensure state is 2 letters
+        mem._state = input("Two letter state id: ").strip()
+        while len(mem._state) != 2:
+            mem._state = input("Please enter valid two letter state id: ").strip()
+
+        # ensure zipcode is 5-digit numeric
+        mem._zipCode = input("Five digit zipcode: ").strip()
+        while not mem._zipCode.isdigit() or len(mem._zipCode) != 5:
+            mem._zipCode = input("Please enter valid five digit zip code: ").strip()
+
         try:
             self._DB.insert_member(mem)
         except Exception as e:
             print(f"Error adding member: {e}")
-        pass
     
     #updates member information
     def updateMember(self):
@@ -554,8 +556,6 @@ class ChocAnSystem:
             for s in services:
                 s.displayInfo()
         sys.stdout = original
-
-
 
     #creates a report for a specific provider
     def generateProviderReport(self, provider_number):
