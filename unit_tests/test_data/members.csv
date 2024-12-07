@@ -1,6 +1,6 @@
 member_number,first_name,last_name,street_address,city,state,zipcode,status
-987654321,Alice,Anderson,741 Birch St,Portland,OR,97202,VALID
-876543210,Bob,Taylor,852 Elm Ave,Seattle,WA,98102,VALID
+987654399,Alice,Anderson,741 Birch St,Portland,OR,97202,VALID
+886543210,Bob,Taylor,852 Elm Ave,Seattle,WA,98102,VALID
 765432109,Carol,Martinez,963 Spruce Dr,San Francisco,CA,94102,SUSPENDED
 654321098,Daniel,Garcia,159 Oak Ln,Los Angeles,CA,90002,VALID
 543210987,Emma,Rodriguez,357 Pine Ave,Chicago,IL,60602,INVALID
