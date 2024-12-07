@@ -80,7 +80,7 @@ class Member:
     def validate(self):
         pass
     
-    #updates the members status
+    # updates the members status
     def updateStatus(self,newStatus):
         pass
     
@@ -280,7 +280,7 @@ class ChocAnSystem:
         except Exception as e:
             print(f"Error adding member: {e}")
     
-    #updates member information
+    # Updates member information
     def updateMember(self):
         mem_num = input("Enter Mumber Number to Update: ")
         member = self._DB.get_member(mem_num)
@@ -335,7 +335,7 @@ class ChocAnSystem:
         except Exception as e:
             print(f"Error deleting member: {e}")
 
-    #adds new provider
+    # Adds new provider
     def addProvider(self):
         provider_number = input("Enter provider number (9 digits): ")
         while not re.match(r"^\d{9}$", provider_number):
@@ -368,7 +368,7 @@ class ChocAnSystem:
             st = input("Enter the state of the provider (e.g., 'CA'): ")
 
 
-        zip = input("Enter the zipcode of provider")
+        zip = input("Enter the zipcode of provider:")
         while not re.match(r"^\d{5}$", zip):
             print("Invalid ZIP code. Enter exactly 5 digits.")
             zip = input("Enter the zipcode of provider: ")
@@ -388,7 +388,7 @@ class ChocAnSystem:
         except Exception as e:
             print(f"Error adding provider: {e}")
 
-    #updates provider information
+    # Updates provider information
     def updateProvider(self):
         #variables
         selection = 0
@@ -455,23 +455,26 @@ class ChocAnSystem:
             print(f"Error deleting service: {e}")
 
     
-    #adds a new service record
     def addService(self):
-        self = Service()
-        #service_code VARCHAR(6) PRIMARY KEY
-        self._serviceCode = input("Six Digit Service Code:")
-        while self._serviceCode is None or len(self._serviceCode) < 6 or len(self._serviceCode) > 6:
-            self._serviceCode = input("Please Enter Valid Six Digit Service Code: ")
-        #service_name VARCHAR(20) 
-        self._serviceName = input("Service Name:")
-        while self._serviceName is None or len(self._serviceName) > 20:
-            self._serviceName = input("Please Enter a Service Name less than Twenty Characters: ")
-        #fee DECIMAL(8,2)
-        self._fee = input("Service fee:")
-        while self._fee is None or len(self._fee) > 8:
-            self._fee = input("Please Enter a Fee less than Eight Digits: ")
+        # Create a new Service object instead of reassigning self
+        service = Service()
+        
+        # Get service details
+        service._serviceCode = input("Six Digit Service Code:")
+        while service._serviceCode is None or len(service._serviceCode) < 6 or len(service._serviceCode) > 6:
+            service._serviceCode = input("Please Enter Valid Six Digit Service Code: ")
+        
+        service._serviceName = input("Service Name:")
+        while service._serviceName is None or len(service._serviceName) > 20:
+            service._serviceName = input("Please Enter a Service Name less than Twenty Characters: ")
+        
+        service._fee = input("Service fee:")
+        while service._fee is None or len(service._fee) > 8:
+            service._fee = input("Please Enter a Fee less than Eight Digits: ")
+        
         try:
-            self._DB.insert_service(self)
+            # Use self._DB since this is a method of ChocAnSystem
+            self._DB.insert_service(service)
         except Exception as e:
             print(f"Error adding service: {e}")
     
