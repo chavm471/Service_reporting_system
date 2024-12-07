@@ -1,6 +1,21 @@
 service_code,service_name,fee
-598470,Dental Cleaning,75.00
-598471,Tooth Filling,120.50
-598472,Root Canal,800.00
-598473,Teeth Whitening,250.00
-598474,Dental X-Ray,95.00 
+598470,Initial Assessment,50
+598471,Weekly Group Therapy,25
+598472,One-on-One Counseling,75
+598473,Chocolate Detox Program,100
+598474,Relapse Prevention Workshop,40
+598475,Mindfulness for Cravings,30
+598476,Chocolate-Free Cooking Class,60
+598477,Family Support Session,50
+598478,Self-Help Resources Access,20
+598479,Community Outreach Session,35
+598480,Nutrition Counseling,55
+598481,Stress Management Training,45
+598482,Accountability Partner Program,15
+598483,Monthly Progress Review,40
+598484,Chocolate Recovery Retreat,150
+598485,Overcoming Chocolate Triggers Workshop,50
+598486,Daily Journaling Program,10
+598487,Healthy Dessert Alternatives Class,35
+598488,Chocolate-Free Social Events,20
+598489,Stress-Induced Craving Support Group,30

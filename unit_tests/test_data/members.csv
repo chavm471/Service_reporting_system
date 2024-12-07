@@ -3,4 +3,19 @@ member_number,first_name,last_name,street_address,city,state,zipcode,status
 876543210,Bob,Taylor,852 Elm Ave,Seattle,WA,98102,VALID
 765432109,Carol,Martinez,963 Spruce Dr,San Francisco,CA,94102,SUSPENDED
 654321098,Daniel,Garcia,159 Oak Ln,Los Angeles,CA,90002,VALID
-543210987,Emma,Rodriguez,357 Pine Ave,Chicago,IL,60602,INVALID 
+543210987,Emma,Rodriguez,357 Pine Ave,Chicago,IL,60602,INVALID
+432109876,Olivia,Brown,102 Maple St,Houston,TX,77002,VALID
+321098765,Liam,Johnson,786 Birch Blvd,Miami,FL,33101,SUSPENDED
+210987654,Noah,Davis,44 Elm Way,Dallas,TX,75201,INVALID
+109876543,Ava,Miller,700 Cedar Dr,Seattle,WA,98101,VALID
+987654321,Sophia,Wilson,33 Ash Ct,Denver,CO,80201,SUSPENDED
+876543210,William,Moore,918 Poplar Pl,Orlando,FL,32801,VALID
+765432101,Isabella,Taylor,546 Fir Rd,New York,NY,10001,INVALID
+654321012,James,Anderson,99 Redwood Trl,San Diego,CA,92101,SUSPENDED
+543210123,Evelyn,Thomas,876 Spruce Ln,Boston,MA,02101,VALID
+432109234,Benjamin,Jackson,212 Oak Grove,Las Vegas,NV,89101,INVALID
+321098345,Amelia,Harris,789 Willow Cir,Atlanta,GA,30301,SUSPENDED
+210987456,Mason,White,405 Pine Ct,Phoenix,AZ,85001,VALID
+109876567,Charlotte,Martinez,678 Cypress Ave,Portland,OR,97201,VALID
+987654432,Ethan,Clark,321 Juniper Blvd,Philadelphia,PA,19102,SUSPENDED
+876543321,Mia,Robinson,432 Willow Dr,Atlanta,GA,30301,INVALID
