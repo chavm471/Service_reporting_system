@@ -279,7 +279,10 @@ class ChocAnSystem:
         while mem._zipCode is None or len(mem._zipCode) < 5:
             mem._zipCode = input("Please Enter Valid Five Digit Zip Code: ")
         #status TEXT CHECK(status IN ('VALID', 'SUSPENDED', 'INVALID')) NOT NULL DEFAULT 'VALID'
-        self._DB.insert_member(mem)
+        try:
+            self._DB.insert_member(mem)
+        except Exception as e:
+            print(f"Error adding member: {e}")
         pass
     
     #updates member information
@@ -325,12 +328,18 @@ class ChocAnSystem:
             member._status = input("Updated Status:")
             while member._status is None:
                 member._status = input("Please Enter Valid Status")
-        self._DB.update_member(member)        
+        try:
+            self._DB.update_member(member)        
+        except Exception as e:
+            print(f"Error updating member: {e}")
         pass
 
     def deleteMember(self):
         mem_num = input("Please Enter Member Number to Delete: ")
-        self._DB.delete_member(mem_num)
+        try:
+            self._DB.delete_member(mem_num)
+        except Exception as e:
+            print(f"Error deleting member: {e}")
         pass
 
     #adds new provider
@@ -380,7 +389,10 @@ class ChocAnSystem:
             state=st,
             zipCode=zip
         )
-        self._DB.insert_provider(new_provider)
+        try:
+            self._DB.insert_provider(new_provider)
+        except Exception as e:
+            print(f"Error adding provider: {e}")
 
     #updates provider information
     def updateProvider(self):
@@ -426,20 +438,29 @@ class ChocAnSystem:
             temp_prov._status = input("Updated Status:")
             while temp_prov._status is None:
                 temp_prov._status = input("Please Enter Valid Status")
-        self._DB.update_provider(temp_prov)        
+        try:
+            self._DB.update_provider(temp_prov)        
+        except Exception as e:
+            print(f"Error updating provider: {e}")
         pass
 
     #removes a provider
     def deleteProvider(self):
         prov_num = input("Enter the provider's ID who you want to delete.")
-        self._DB.delete_provider(prov_num)
+        try:
+            self._DB.delete_provider(prov_num)
+        except Exception as e:
+            print(f"Error deleting provider: {e}")
         pass
     
     def deleteService(self):
         serv_num = input("Enter the six digit service code you wish to delete: ")
         while serv_num is None or len(serv_num) < 6 or len(serv_num) > 6:
             serv_num = input("Enter the six digit service code you wish to delete: ")
-        self._DB.delete_service(serv_num)
+        try:
+            self._DB.delete_service(serv_num)
+        except Exception as e:
+            print(f"Error deleting service: {e}")
 
     
     #adds a new service record
@@ -457,14 +478,20 @@ class ChocAnSystem:
         self._fee = input("Service fee:")
         while self._fee is None or len(self._fee) > 8:
             self._fee = input("Please Enter a Fee less than Eight Digits: ")
-        self._DB.insert_service(self)
+        try:
+            self._DB.insert_service(self)
+        except Exception as e:
+            print(f"Error adding service: {e}")
     
     #deletes a service
     def deleteService(self):
         serv_num = input("Enter the six digit service code you wish to delete: ")
         while serv_num is None or len(serv_num) < 6 or len(serv_num) > 6:
             serv_num = input("Enter the six digit service code you wish to delete: ")
-        self._DB.delete_service(serv_num)
+        try:
+            self._DB.delete_service(serv_num)
+        except Exception as e:
+            print(f"Error deleting service: {e}")
 
     def addServiceRecord(self):
         #primary key is an autoincr int
@@ -485,7 +512,10 @@ class ChocAnSystem:
         #rec._service = input("Six Digit Service Number: ")
         #rec._comments = input("Comments for Service Record: ")
         #rec._fee = input("Service Fee: ")
-        self._DB.insert_service_record(rec)
+        try:
+            self._DB.insert_service_record(rec)
+        except Exception as e:
+            print(f"Error adding service record: {e}")
 
     def updateServiceRecord(self):
         pass
@@ -495,7 +525,10 @@ class ChocAnSystem:
         while rec_num is None or len(rec_num) > 4096:
             print("Invalid Service Record ID")
             rec_num = input("Enter the Service Record ID of the record to delete: ")
-        self._DB.delete_service_record(rec_num)
+        try:
+            self._DB.delete_service_record(rec_num)
+        except Exception as e:
+            print(f"Error deleting service record: {e}")
              
 
     #updates member statuses based on payment
@@ -538,13 +571,16 @@ class ChocAnSystem:
 
             print(provider.__repr__)
             print("Services:")
-            service_list = self._DB.get_service_records_by_provider()
-            consultations = 0
-            total_fee = 0
-            for serv in service_list:
+            try:
+                service_list = self._DB.get_service_records_by_provider()
+                consultations = 0
+                total_fee = 0
+                for serv in service_list:
                 serv.displayInfo()
                 consultations += 1
                 total_fee = total_fee + serv.fee
+            except Exception as e:
+                print(f"Error generating provider report: {e}")
             print("")
             print("Total consulations:" + consultations)
             print("Total fee:" + total_fee)
@@ -554,11 +590,14 @@ class ChocAnSystem:
 
     #Generates all required weekly reports
     def generateWeeklyReports(self):
-        print("*** Weekly Reports:")
-        print("** Provider Reports:")
-        for prov in self._providers:
-            self.generateProviderReport(prov._providerNumber)
-        print("")
-        print("Member Reports:")
-        for mem in self._members:
-            self.generateMemberReport(mem._memberNumber)
+        try:
+            print("*** Weekly Reports:")
+            print("** Provider Reports:")
+            for prov in self._providers:
+                self.generateProviderReport(prov._providerNumber)
+            print("")
+            print("Member Reports:")
+            for mem in self._members:
+                self.generateMemberReport(mem._memberNumber)
+        except Exception as e:
+            print(f"Error generating weekly reports: {e}")
