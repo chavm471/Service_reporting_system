@@ -542,50 +542,44 @@ class ChocAnSystem:
             print(prov.__repr__)
         pass
     
-    #creates a report for a specific member
     def generateMemberReport(self, member_number):
         member = self._DB.get_member(member_number)
-
-        file = "member_" + member_number + "_report.txt"
-        with open(file, "w") as f:
-            original_std = sys.stdout
+        filename = f"member_{member_number}_report.txt"
+        original = sys.stdout
+        with open(filename, "w") as f:
             sys.stdout = f
-
-            print(member.__repr__)
+            print(repr(member))
             print("Services:")
-            service_list = self._DB.get_service_records_by_member()
-            for serv in service_list:
-                serv.displayInfo()
-        sys.stdout = original_std
-        f.close()
+            services = self._DB.get_service_records_by_member(member_number)
+            for s in services:
+                s.displayInfo()
+        sys.stdout = original
 
 
 
     #creates a report for a specific provider
     def generateProviderReport(self, provider_number):
         provider = self._DB.get_provider(provider_number)
-        file = "provider_" + member_number + "_report.txt"
+        file = "provider_" + provider_number + "_report.txt"
+        original_std = sys.stdout
         with open(file, "w") as f:
-            original_std = sys.stdout
             sys.stdout = f
-
-            print(provider.__repr__)
+            print(repr(provider))
             print("Services:")
             try:
                 service_list = self._DB.get_service_records_by_provider()
                 consultations = 0
                 total_fee = 0
                 for serv in service_list:
-                serv.displayInfo()
-                consultations += 1
-                total_fee = total_fee + serv.fee
+                    serv.displayInfo()
+                    consultations += 1
+                    total_fee += serv.fee
             except Exception as e:
-                print(f"Error generating provider report: {e}")
+                print(f"error generating provider report: {e}")
             print("")
-            print("Total consulations:" + consultations)
-            print("Total fee:" + total_fee)
+            print(f"total consultations: {consultations}")
+            print(f"total fee: {total_fee}")
         sys.stdout = original_std
-        f.close()
 
 
     #Generates all required weekly reports
