@@ -279,6 +279,9 @@ class ChocAnSystem:
             self._DB.insert_member(mem)
         except Exception as e:
             print(f"Error adding member: {e}")
+
+    def getServiceDirectory(self):
+        return self._DB.get_service_directory()
     
     # Updates member information
     def updateMember(self):
@@ -478,6 +481,14 @@ class ChocAnSystem:
         except Exception as e:
             print(f"Error adding service: {e}")
     
+    def getServiceDirectory(self):
+        try:
+            for service in self._DB.get_service_directory():
+                print(service)
+        except Exception as e:
+            print(f"Error getting service directory: {e}")
+        
+    
     #deletes a service
     def deleteService(self):
         serv_num = input("Enter the six digit service code you wish to delete: ")
@@ -489,38 +500,79 @@ class ChocAnSystem:
             print(f"Error deleting service: {e}")
 
     def addServiceRecord(self):
-
-        rec = ServiceRecord()
-        date_input = input("Date Record Received (YYYY MM DD): ")
-        while not datetime.strptime(date_input, "%Y %m %d"):
-            date_input = input("Enter in this format (YYYY MM DD): ")
-        rec._dateReceived = datetime.strptime(date_input, "%Y %m %d")
-
-        date_input = input("Service Date (YYYY MM DD): ")
-        while not datetime.strptime(date_input, "%Y %m %d"):
-            date_input = input("Enter in this format (YYYY MM DD): ")
-        rec._serviceDate = datetime.strptime(date_input, "%Y %m %d")
-
-        rec._provider = input("Provider number: ")
-        while rec._provider is None or len(rec._provider) < 9 or len(rec._provider) > 9:
-            rec._provider = input("Please Enter Valid Nine Digit Provider Number: ")
-
-        rec._member = input("Member number: ")
-        while rec._member is None or len(rec._member) < 9 or len(rec._member) > 9:
-            rec._member = input("Please Enter Valid Nine Digit Member Number: ")
-
-        rec._service = input("Service number: ")
-        while rec._service is None or len(rec._service) < 6 or len(rec._service) > 6:
-            rec._service = input("Please Enter Valid Nine Digit Member Number: ")
-
-        rec._comments = input("Comments: ") # comments are optional
-        
-        rec._fee = input("Service fee: ")
-        while rec._fee is None or len(rec._fee) > 8:
-            rec._fee = input("Input a fee under 8 digits: ")
-        
         try:
+            rec = ServiceRecord()
+            
+            # Get and validate dates
+            while True:
+                try:
+                    date_input = input("Date Record Received (YYYY MM DD): ")
+                    rec._dateReceived = datetime.strptime(date_input, "%Y %m %d")
+                    break
+                except ValueError:
+                    print("Invalid date format. Please use YYYY MM DD")
+
+            while True:
+                try:
+                    date_input = input("Service Date (YYYY MM DD): ")
+                    rec._serviceDate = datetime.strptime(date_input, "%Y %m %d")
+                    break
+                except ValueError:
+                    print("Invalid date format. Please use YYYY MM DD")
+
+            # Get and validate provider
+            while True:
+                provider_num = input("Provider number (9 digits): ")
+                if re.match(r"^\d{9}$", provider_num):
+                    provider = self._DB.get_provider(provider_num)
+                    if provider:
+                        rec._provider = provider
+                        break
+                    print("Provider not found in database")
+                else:
+                    print("Please enter a valid 9-digit provider number")
+
+            # Get and validate member
+            while True:
+                member_num = input("Member number (9 digits): ")
+                if re.match(r"^\d{9}$", member_num):
+                    member = self._DB.get_member(member_num)
+                    if member:
+                        rec._member = member
+                        break
+                    print("Member not found in database")
+                else:
+                    print("Please enter a valid 9-digit member number")
+
+            # Get and validate service
+            while True:
+                service_code = input("Service code (6 digits): ")
+                if re.match(r"^\d{6}$", service_code):
+                    service = self._DB.get_service(service_code)
+                    if service:
+                        rec._service = service
+                        break
+                    print("Service not found in database")
+                else:
+                    print("Please enter a valid 6-digit service code")
+
+            # Get optional comments
+            rec._comments = input("Comments (optional): ")
+
+            # Get and validate fee
+            while True:
+                try:
+                    fee = float(input("Service fee: "))
+                    if fee >= 0 and len(str(int(fee))) <= 8:
+                        rec._fee = fee
+                        break
+                    print("Fee must be positive and have at most 8 digits")
+                except ValueError:
+                    print("Please enter a valid number")
+
             self._DB.insert_service_record(rec)
+            print("Service record added successfully")
+
         except Exception as e:
             print(f"Error adding service record: {e}")
 
